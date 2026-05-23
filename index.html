@@ -616,7 +616,7 @@
             gap: 20px;
         }
 
-        /* Estilos para a página de prazos */
+        /* Estilos para a página de prazos - NOVA VERSÃO ATUALIZADA */
         .prazo-card {
             background: #e3f2fd;
             border-radius: 16px;
@@ -632,25 +632,13 @@
             gap: 10px;
         }
 
-        .prazo-dias {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
+        .prazo-destaque {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 12px;
+            border-radius: 12px;
             margin: 15px 0;
-        }
-
-        .dia-semana {
-            background: white;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
             font-weight: 500;
-            color: #1a3a4f;
-        }
-
-        .dia-semana.destaque {
-            background: #1e88e5;
-            color: white;
         }
 
         .info-box {
@@ -664,6 +652,16 @@
         .info-box p {
             margin: 0;
             font-size: 0.8rem;
+        }
+
+        .badge-urgencia {
+            background: #ff6b6b;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            display: inline-block;
+            margin-top: 8px;
         }
 
         @media (max-width: 480px) {
@@ -918,26 +916,17 @@
             <div class="products-grid" id="productsGrid"></div>
         </div>
 
-        <!-- Página História do Dan -->
         <div class="page" id="origemPage">
             <div class="info-page">
                 <h2><i class="fas fa-child"></i> A História do Dan</h2>
-                
                 <div class="historia-dan">
                     <p>✨ <strong>Dan tem apenas 7 anos</strong> e é um menino cheio de sonhos e alegria! Como toda criança, ele adora ir ao parque, passear no shopping e ganhar brinquedos novos. Um dia, ele teve uma ideia brilhante: <strong>"E se eu vender alguma coisa para poder comprar meus próprios brinquedos?"</strong></p>
-                    
                     <p>🍰 Com a ajuda do papai e da mamãe, Dan descobriu que na cidade onde o vovô Hudson tinha um Sítio, tinha uma fábrica de doces super tradicional: os <strong>Doces Antunes</strong>! Eles são conhecidos por sua qualidade e sabor incomparável, feitos com muito carinho.</p>
-                    
                     <p>🌳 Dan já conhecia muito bem esses doces porque ele adora ir ao <strong>sítio do vovô Hudson</strong>, que fica bem pertinho da fábrica. Lá, ele se diverte correndo, explorando a natureza, colhendo frutas e, claro, saboreando os deliciosos doces que saem da fábrica! É um lugar mágico onde ele aprendeu a valorizar as coisas simples da vida, e curtir sua família.</p>
-                    
                     <p>💛 Foi assim que nasceu o <strong>Doces do Dan</strong>! Uma iniciativa de um pequeno grande empreendedor que quer levar alegria e sabor para a vida das pessoas, enquanto realiza seus sonhos de criança.</p>
-                    
                     <p>🎯 <strong>Quando você compra os Doces do Dan, não está apenas levando um produto de qualidade para sua casa. Você está ajudando um menino de 7 anos a aprender sobre trabalho, responsabilidade e a conquistar seus próprios sonhos!</strong></p>
-                    
                     <p style="margin-top: 15px; text-align: center; font-style: italic;">"Brincando de trabalhar e com amor, até os menores sonhos podem se tornar os maiores doces da vida!" - Dan 💙</p>
                 </div>
-
-                <!-- Seção de Vídeos - Adicione quantos quiser -->
                 <h3 style="color: #1e88e5; margin-bottom: 15px;"><i class="fab fa-youtube"></i> Vídeos do Dan</h3>
                 <div class="video-grid" id="videosGrid">
                     <div class="video-card">
@@ -946,7 +935,6 @@
                             <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Vídeo Dan 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         </div>
                     </div>
-                    
                     <div class="video-card">
                         <h3><i class="fas fa-play-circle"></i> Dan no sítio do vovô Hudson</h3>
                         <div class="video-container">
@@ -954,62 +942,41 @@
                         </div>
                     </div>
                 </div>
-                
                 <div class="info-box" style="background: #e8f5e9; border-left-color: #4caf50; margin-top: 20px;">
                     <p><i class="fas fa-heart" style="color: #e91e63;"></i> <strong>Quer ajudar o Dan a realizar seus sonhos?</strong> Compartilhe essa história e espalhe o sabor dos Doces do Dan!</p>
                 </div>
             </div>
         </div>
 
-        <!-- Página Prazos -->
         <div class="page" id="prazosPage">
             <div class="info-page">
                 <h2>⏰ Prazos das Encomendas</h2>
                 
                 <div class="prazo-card">
-                    <h3><i class="fas fa-calendar-week"></i> Entregas para BH e Região Metropolitana</h3>
-                    
-                    <p><strong>📅 Comprando nesses dias da semana:</strong></p>
-                    <div class="prazo-dias">
-                        <span class="dia-semana destaque">Quarta</span>
-                        <span class="dia-semana destaque">Quinta</span>
-                        <span class="dia-semana destaque">Sexta</span>
-                        <span class="dia-semana destaque">Sábado</span>
+                    <h3><i class="fas fa-calendar-week"></i> 📦 Política de Entregas - Doces do Dan</h3>
+                    <div class="prazo-destaque">
+                        <p><strong>✅ Pedidos fechados até QUARTA-FEIRA</strong> → entregues na <strong>QUARTA-FEIRA DA SEMANA SEGUINTE</strong></p>
                     </div>
-                    <p><strong>✅ Seu pedido será entregue na QUARTA-FEIRA DA SEMANA SEGUINTE</strong></p>
+                    <p><strong>🚚 Nossas entregas são semanais:</strong></p>
+                    <p>• Realizamos rotas de entregas toda <strong>QUARTA ou QUINTA</strong> (dependendo da demanda).<br>
+                    • Se a demanda for alta, podemos estender as entregas até quinta-feira para atender todos com qualidade.</p>
                     
                     <div class="info-box">
-                        <p><i class="fas fa-truck"></i> 📍 Entregamos em toda BH e região metropolitana</p>
-                        <p><i class="fas fa-table"></i> 📋 Consultar tabela de frete ou optar por retirada</p>
+                        <p><i class="fas fa-store"></i> <strong>Retirada na loja:</strong> O cliente pode retirar o pedido seguindo o mesmo prazo de produção (até quarta-feira da semana seguinte).</p>
+                        <p><i class="fas fa-bolt"></i> <strong>⚠️ Em caso de URGÊNCIA:</strong> Antes de finalizar o pedido, consulte a disponibilidade em estoque pelo WhatsApp. Podemos atender pedidos urgentes se houver produto pronto.</p>
                     </div>
                 </div>
 
                 <div class="prazo-card">
-                    <h3><i class="fas fa-calendar-week"></i> Entregas para BH e Região Metropolitana</h3>
-                    
-                    <p><strong>📅 Comprando nesses dias da semana:</strong></p>
-                    <div class="prazo-dias">
-                        <span class="dia-semana destaque">Domingo</span>
-                        <span class="dia-semana destaque">Segunda</span>
-                        <span class="dia-semana destaque">Terça</span>
-                    </div>
-                    <p><strong>✅ Seu pedido será entregue na SEXTA-FEIRA DA SEMANA SEGUINTE</strong></p>
-                    
-                    <div class="info-box">
-                        <p><i class="fas fa-truck"></i> 📍 Entregamos em toda BH e região metropolitana</p>
-                        <p><i class="fas fa-table"></i> 📋 Consultar tabela de frete ou optar por retirada</p>
-                    </div>
-                </div>
-
-                <div class="prazo-card">
-                    <h3><i class="fas fa-store"></i> Retirada na Loja</h3>
-                    <p>Você também pode retirar seu pedido diretamente em nossa loja:</p>
-                    <p><strong>📍 Praça Santuário São Geraldo, 46 - São Geraldo - Belo Horizonte</strong></p>
+                    <h3><i class="fas fa-map-marker-alt"></i> Locais de Atendimento</h3>
+                    <p><strong>📍 BH e Região Metropolitana:</strong> Entregamos em toda Grande BH.</p>
+                    <p><strong>📍 Retirada na Loja:</strong> Praça Santuário São Geraldo, 46 - São Geraldo - Belo Horizonte</p>
                     <p><strong>⏰ Horário de funcionamento:</strong> Segunda a Sábado, das 9h às 19h</p>
                 </div>
 
                 <div class="info-box" style="background: #e8f5e9; border-left-color: #4caf50;">
-                    <p><i class="fas fa-info-circle"></i> <strong>Importante:</strong> Para garantir a entrega na data programada, é necessário que o pedido seja confirmado (com pagamento) até às 18h do dia do pedido.</p>
+                    <p><i class="fas fa-info-circle"></i> <strong>Importante:</strong> Para garantir a entrega na quarta-feira da semana seguinte, é necessário que o pedido seja confirmado (com pagamento) até às 18h da quarta-feira.</p>
+                    <p><i class="fab fa-whatsapp"></i> Dúvidas sobre prazos ou disponibilidade? Fale conosco pelo WhatsApp!</p>
                 </div>
             </div>
         </div>
@@ -1041,7 +1008,6 @@
         </div>
     </div>
 
-    <!-- Modal do produto -->
     <div class="product-modal" id="productModal">
         <div class="product-modal-content">
             <img class="product-modal-img" id="modalProductImg" src="" alt="">
@@ -1054,7 +1020,6 @@
         </div>
     </div>
 
-    <!-- Modal do WhatsApp -->
     <div class="whatsapp-modal" id="whatsappModal">
         <div class="whatsapp-modal-content">
             <h3>📱 Fazer Pedido</h3>
@@ -1066,7 +1031,6 @@
         </div>
     </div>
 
-    <!-- Menu inferior -->
     <div class="bottom-menu">
         <button class="menu-item active" data-page="home"><i class="fas fa-home"></i><span>Início</span></button>
         <button class="menu-item" data-page="products"><i class="fas fa-box"></i><span>Produtos</span></button>
@@ -1083,81 +1047,73 @@
         const INSTAGRAM_URL = "https://www.instagram.com/docesdodan/";
         const STORE_NAME = "Doces do Dan";
 
-        function calcSalePrice(custo, percentual) {
-            return custo / (percentual / 100);
+        function formatPriceBRL(value) {
+            return value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
 
-        const categoriasComOrdem = [
-            { id: "caixinhas", nome: "Caixinhas Gourmet", icone: "", ordem: 1 },
-            { id: "bombons", nome: "Bombons e Finos", icone: "", ordem: 2 },
-            { id: "vidrinhos", nome: "Vidrinhos (300g)", icone: "", ordem: 3 },
-            { id: "vidros", nome: "Doces em Vidro (700g)", icone: "", ordem: 4 },
-            { id: "bisnagas", nome: "Bisnagas e Potes", icone: "", ordem: 5 }
-        ];
+        function parsePriceToNumber(priceStr) {
+            if (typeof priceStr === 'number') return priceStr;
+            let cleaned = priceStr.replace(/\./g, '').replace(',', '.').replace(/[^0-9.-]/g, '');
+            return parseFloat(cleaned);
+        }
 
-        const categoriasConfig = [...categoriasComOrdem].sort((a, b) => a.ordem - b.ordem);
-
-        // ==================== PRODUTOS COM IMAGEM INDIVIDUAL ====================
-        // CADA PRODUTO TEM SUA PRÓPRIA URL DE IMAGEM
-        // Altere o campo "img" para a URL da imagem do produto específico
-        
+        // PRODUTOS COM PREÇO DE VENDA MANUAL (formato vírgula) + CUSTO E PERCENTUAL PARA CONFERÊNCIA
+        // Cada produto agora em 3 linhas organizadas: nome, apresentacao, custo/percentual/venda, categoria, img
         const produtosRaw = [
             // === CAIXINHAS GOURMET ===
-            { nome: "Caixa de Doce de Leite", apresentacao: "9 unidades", custo: 5.00, percentual: 55, categoria: "caixinhas", img: "https://cdn.awsli.com.br/1608/1608652/arquivos/whatsapp-image-2026-05-22-at-18-16-31.jpeg" },
-            { nome: "Caixa de Doce de Leite c/ Amendoim", apresentacao: "9 unidades", custo: 5.00, percentual: 55, categoria: "caixinhas", img: "https://cdn.awsli.com.br/1608/1608652/arquivos/whatsapp-image-2026-05-22-at-18-16-31.jpeg" },
-            { nome: "Caixa de Cocada Branca", apresentacao: "9 unidades", custo: 6.00, percentual: 55, categoria: "caixinhas", img: "https://cdn.awsli.com.br/1608/1608652/arquivos/whatsapp-image-2026-05-22-at-18-16-31.jpeg" },
-            { nome: "Caixa Pé de Moleque Macio", apresentacao: "9 unidades", custo: 5.00, percentual: 55, categoria: "caixinhas", img: "https://cdn.awsli.com.br/1608/1608652/arquivos/whatsapp-image-2026-05-22-at-18-16-31.jpeg" },
-            { nome: "Caixa de Cocada Morena", apresentacao: "9 unidades", custo: 6.00, percentual: 55, categoria: "caixinhas", img: "https://cdn.awsli.com.br/1608/1608652/arquivos/whatsapp-image-2026-05-22-at-18-16-31.jpeg" },
-            
+            { nome: "Caixa de Doce de Leite", apresentacao: "9 unidades", custo: 5.00, percentual: 55, venda: "7,50", categoria: "caixinhas", img: "https://cdn.awsli.com.br/1608/1608652/arquivos/whatsapp-image-2026-05-22-at-18-16-31.jpeg" },
+            { nome: "Caixa de Doce de Leite c/ Amendoim", apresentacao: "9 unidades", custo: 5.00, percentual: 55, venda: "7,50", categoria: "caixinhas", img: "https://cdn.awsli.com.br/1608/1608652/arquivos/whatsapp-image-2026-05-22-at-18-16-31.jpeg" },
+            { nome: "Caixa de Cocada Branca", apresentacao: "9 unidades", custo: 6.00, percentual: 55, venda: "8,90", categoria: "caixinhas", img: "https://cdn.awsli.com.br/1608/1608652/arquivos/whatsapp-image-2026-05-22-at-18-16-31.jpeg" },
+            { nome: "Caixa Pé de Moleque Macio", apresentacao: "9 unidades", custo: 5.00, percentual: 55, venda: "7,50", categoria: "caixinhas", img: "https://cdn.awsli.com.br/1608/1608652/arquivos/whatsapp-image-2026-05-22-at-18-16-31.jpeg" },
+            { nome: "Caixa de Cocada Morena", apresentacao: "9 unidades", custo: 6.00, percentual: 55, venda: "8,90", categoria: "caixinhas", img: "https://cdn.awsli.com.br/1608/1608652/arquivos/whatsapp-image-2026-05-22-at-18-16-31.jpeg" },
             
             // === BOMBONS E FINOS ===
-            { nome: "Bombom de Brigadeiro", apresentacao: "200g (10 unid)", custo: 9.26, percentual: 55, categoria: "bombons", img: "https://www.docesantunes.com.br/painel/produtos/imagens/_MG_7180%20copiar.jpg" },
-            { nome: "Bombom de Cajuzinho", apresentacao: "200g (10 unid)", custo: 9.26, percentual: 55, categoria: "bombons", img: "https://www.docesantunes.com.br/painel/produtos/imagens/_MG_7182%20copiar.jpg" },
-            { nome: "Bombom de Doce de Leite", apresentacao: "200g (10 unid)", custo: 9.26, percentual: 55, categoria: "bombons", img: "https://www.docesantunes.com.br/painel/produtos/imagens/328.png" },
-            { nome: "Bombom de Coco", apresentacao: "200g (10 unid)", custo: 10.42, percentual: 55, categoria: "bombons", img: "https://www.docesantunes.com.br/painel/produtos/imagens/MG_0938-600x350.jpg" },
-            { nome: "Brigadeiro", apresentacao: "165g (8 unid)", custo: 8.32, percentual: 55, categoria: "bombons", img: "https://www.docesantunes.com.br/painel/produtos/imagens/MG_0939-600x350.jpg" },
-            { nome: "Cajuzinho", apresentacao: "200g (8 unid)", custo: 7.53, percentual: 55, categoria: "bombons", img: "https://www.docesantunes.com.br/painel/produtos/imagens/MG_0946-600x350.jpg" },
-            { nome: "Beijinho de Coco", apresentacao: "200g", custo: 11.89, percentual: 55, categoria: "bombons", img: "https://www.docesantunes.com.br/painel/produtos/imagens/MG_0953-600x350.jpg" },
-            { nome: "Caixa de Mini Vidros Sortidos", apresentacao: "4 unid", custo: 19.26, percentual: 55, categoria: "bombons", img: "https://www.docesantunes.com.br/painel/produtos/imagens/MG_0971-600x350.jpg" },
+            { nome: "Bombom de Brigadeiro", apresentacao: "200g (10 unid)", custo: 9.26, percentual: 55, venda: "17,90", categoria: "bombons", img: "https://www.docesantunes.com.br/painel/produtos/imagens/_MG_7180%20copiar.jpg" },
+            { nome: "Bombom de Cajuzinho", apresentacao: "200g (10 unid)", custo: 9.26, percentual: 55, venda: "17,90", categoria: "bombons", img: "https://www.docesantunes.com.br/painel/produtos/imagens/_MG_7182%20copiar.jpg" },
+            { nome: "Bombom de Doce de Leite", apresentacao: "200g (10 unid)", custo: 9.26, percentual: 55, venda: "17,90", categoria: "bombons", img: "https://www.docesantunes.com.br/painel/produtos/imagens/328.png" },
+            { nome: "Bombom de Coco", apresentacao: "200g (10 unid)", custo: 10.42, percentual: 55, venda: "18,90", categoria: "bombons", img: "https://www.docesantunes.com.br/painel/produtos/imagens/MG_0938-600x350.jpg" },
+            { nome: "Brigadeiro", apresentacao: "165g (8 unid)", custo: 8.32, percentual: 55, venda: "15,90", categoria: "bombons", img: "https://www.docesantunes.com.br/painel/produtos/imagens/MG_0939-600x350.jpg" },
+            { nome: "Cajuzinho", apresentacao: "200g (8 unid)", custo: 7.53, percentual: 55, venda: "13,90", categoria: "bombons", img: "https://www.docesantunes.com.br/painel/produtos/imagens/MG_0946-600x350.jpg" },
+            { nome: "Beijinho de Coco", apresentacao: "200g", custo: 11.89, percentual: 55, venda: "19,90", categoria: "bombons", img: "https://www.docesantunes.com.br/painel/produtos/imagens/MG_0953-600x350.jpg" },
+            
             
             // === VIDRINHOS (300g) ===
-            { nome: "Doce de Leite Pastoso", apresentacao: "Vidro 300g", custo: 11.05, percentual: 55, categoria: "vidrinhos", img: "https://www.docesantunes.com.br/painel/produtos/imagens/doces-antunes-interno-6-600x347.jpg" },
-            { nome: "Doce de Leite com Coco", apresentacao: "Vidro 300g", custo: 11.16, percentual: 55, categoria: "vidrinhos", img: "https://images.unsplash.com/photo-1587314168485-3236d6710814?w=300&h=200&fit=crop" },
-            { nome: "Cocada Cremosa", apresentacao: "Vidro 300g", custo: 11.53, percentual: 55, categoria: "vidrinhos", img: "https://images.unsplash.com/photo-1587314168485-3236d6710814?w=300&h=200&fit=crop" },
-            { nome: "Doce de Leite Pastoso Diet", apresentacao: "Vidro 300g", custo: 20.74, percentual: 55, categoria: "vidrinhos", img: "https://images.unsplash.com/photo-1587314168485-3236d6710814?w=300&h=200&fit=crop" },
+            { nome: "Doce de Leite Pastoso", apresentacao: "Vidro 300g", custo: 11.05, percentual: 55, venda: "18,90", categoria: "vidrinhos", img: "https://www.docesantunes.com.br/painel/produtos/imagens/doces-antunes-interno-6-600x347.jpg" },
+            { nome: "Doce de Leite com Coco", apresentacao: "Vidro 300g", custo: 11.16, percentual: 55, venda: "19,90", categoria: "vidrinhos", img: "https://www.docesantunes.com.br/painel/produtos/imagens/doces-antunes-interno-29-1-600x347.jpg" },
+            { nome: "Cocada Cremosa", apresentacao: "Vidro 300g", custo: 11.53, percentual: 55, venda: "22,90", categoria: "vidrinhos", img: "https://www.docesantunes.com.br/painel/produtos/imagens/doces-antunes-interno-4-600x347.jpg" },
+            { nome: "Doce de Leite Pastoso Diet", apresentacao: "Vidro 300g", custo: 20.74, percentual: 55, venda: "34,90", categoria: "vidrinhos", img: "https://www.docesantunes.com.br/painel/produtos/imagens/MG_6807-600x520%20(1).jpg" },
             
             // === VIDROS (700g) ===
-            { nome: "Doce de Leite Pastoso", apresentacao: "Vidro 700g", custo: 20.32, percentual: 55, categoria: "vidros", img: "https://images.unsplash.com/photo-1587314168485-3236d6710814?w=300&h=200&fit=crop" },
-            { nome: "Doce de Leite com Coco", apresentacao: "Vidro 700g", custo: 20.63, percentual: 55, categoria: "vidros", img: "https://www.docesantunes.com.br/painel/produtos/imagens/1-600x347.jpg" },
-            { nome: "Doce de Leite com Ameixa", apresentacao: "Vidro 700g", custo: 22.95, percentual: 55, categoria: "vidros", img: "https://images.unsplash.com/photo-1587314168485-3236d6710814?w=300&h=200&fit=crop" },
-            { nome: "Doce de Leite com Chocolate", apresentacao: "Vidro 700g", custo: 20.84, percentual: 55, categoria: "vidros", img: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=300&h=200&fit=crop" },
-            { nome: "Cocada Cremosa", apresentacao: "Vidro 700g", custo: 21.79, percentual: 55, categoria: "vidros", img: "https://images.unsplash.com/photo-1587314168485-3236d6710814?w=300&h=200&fit=crop" },
-            { nome: "Cocada Morena", apresentacao: "Vidro 700g", custo: 21.79, percentual: 55, categoria: "vidros", img: "https://images.unsplash.com/photo-1587314168485-3236d6710814?w=300&h=200&fit=crop" },
+            { nome: "Doce de Leite Pastoso", apresentacao: "Vidro 700g", custo: 20.32, percentual: 55, venda: "39,90", categoria: "vidros", img: "https://www.docesantunes.com.br/painel/produtos/imagens/19424-MOCKUP-DOCE-DE-LEITE-PASTOSO-700G_A03-e1545684949734-500x350.jpg" },
+            { nome: "Doce de Leite com Coco", apresentacao: "Vidro 700g", custo: 20.63, percentual: 55, venda: "39,90", categoria: "vidros", img: "https://www.docesantunes.com.br/painel/produtos/imagens/1-600x347.jpg" },
+            { nome: "Doce de Leite com Ameixa", apresentacao: "Vidro 700g", custo: 22.95, percentual: 55, venda: "42,90", categoria: "vidros", img: "https://www.docesantunes.com.br/painel/produtos/imagens/doces-antunes-interno-24-600x347.jpg" },
+            { nome: "Doce de Leite com Chocolate", apresentacao: "Vidro 700g", custo: 20.84, percentual: 55, venda: "39,90", categoria: "vidros", img: "https://www.docesantunes.com.br/painel/produtos/imagens/doces-antunes-interno-28-600x347.jpg" },
+            { nome: "Cocada Cremosa", apresentacao: "Vidro 700g", custo: 21.79, percentual: 55, venda: "41,90", categoria: "vidros", img: "https://www.docesantunes.com.br/painel/produtos/imagens/19426-MOCKUP-COCADA-CREMOSA-700G_A02-600x350.jpg" },
+            { nome: "Cocada Morena", apresentacao: "Vidro 700g", custo: 21.79, percentual: 55, venda: "41,90", categoria: "vidros", img: "https://www.docesantunes.com.br/painel/produtos/imagens/doces-antunes-interno-15-600x347.jpg" },
             
             // === BISNAGAS E POTES ===
-            { nome: "Doce de Leite Pastoso", apresentacao: "Bisnaga 1 kg", custo: 20.53, percentual: 55, categoria: "bisnagas", img: "https://www.docesantunes.com.br/painel/produtos/imagens/_MG_7232.jpg" },
-            { nome: "Doce de Leite c/ Chocolate", apresentacao: "Bisnaga 1 kg", custo: 20.84, percentual: 55, categoria: "bisnagas", img: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=300&h=200&fit=crop" },
-            { nome: "Doce de Leite Pastoso", apresentacao: "Bisnaga 280 g", custo: 6.95, percentual: 55, categoria: "bisnagas", img: "https://images.unsplash.com/photo-1587314168485-3236d6710814?w=300&h=200&fit=crop" },
-            { nome: "Doce de Leite c/ Chocolate", apresentacao: "Bisnaga 280 g", custo: 7.26, percentual: 55, categoria: "bisnagas", img: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=300&h=200&fit=crop" },
-            { nome: "Doce de Leite Pastoso", apresentacao: "Pote 300 g", custo: 7.05, percentual: 55, categoria: "bisnagas", img: "https://images.unsplash.com/photo-1587314168485-3236d6710814?w=300&h=200&fit=crop" },
-            { nome: "Doce de Leite com Coco", apresentacao: "Pote 300 g", custo: 7.16, percentual: 55, categoria: "bisnagas", img: "https://images.unsplash.com/photo-1587314168485-3236d6710814?w=300&h=200&fit=crop" },
-            { nome: "Cocada Cremosa", apresentacao: "Pote 300 g", custo: 7.68, percentual: 55, categoria: "bisnagas", img: "https://images.unsplash.com/photo-1587314168485-3236d6710814?w=300&h=200&fit=crop" },
-            { nome: "Doce de Leite com Morango", apresentacao: "Pote 300 g", custo: 7.26, percentual: 55, categoria: "bisnagas", img: "https://www.docesantunes.com.br/painel/produtos/imagens/20221007_081509-removebg-preview.png" },
-            { nome: "Doce de Goiaba Cascão", apresentacao: "Pote 300 g", custo: 4.95, percentual: 55, categoria: "bisnagas", img: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=300&h=200&fit=crop" },
-            { nome: "Doce de Leite Pastoso", apresentacao: "Pote 500 g", custo: 11.26, percentual: 55, categoria: "bisnagas", img: "https://images.unsplash.com/photo-1587314168485-3236d6710814?w=300&h=200&fit=crop" }
+            { nome: "Doce de Leite Pastoso", apresentacao: "Bisnaga 1 kg", custo: 20.53, percentual: 55, venda: "39,90", categoria: "bisnagas", img: "https://www.docesantunes.com.br/painel/produtos/imagens/_MG_7232.jpg" },
+            { nome: "Doce de Leite c/ Chocolate", apresentacao: "Bisnaga 1 kg", custo: 20.84, percentual: 55, venda: "41,90", categoria: "bisnagas", img: "https://www.docesantunes.com.br/painel/produtos/imagens/MG_9430-e1522348428539-600x350.jpg" },
+            { nome: "Doce de Leite Pastoso", apresentacao: "Pote 300 g", custo: 7.05, percentual: 55, venda: "13,90", categoria: "bisnagas", img: "https://www.docesantunes.com.br/painel/produtos/imagens/20221007_081454-removebg-preview.png" },
+            { nome: "Doce de Leite com Coco", apresentacao: "Pote 300 g", custo: 7.16, percentual: 55, venda: "14,90", categoria: "bisnagas", img: "https://www.docesantunes.com.br/painel/produtos/imagens/20221007_081533-removebg-preview.png" },
+            { nome: "Cocada Cremosa", apresentacao: "Pote 300 g", custo: 7.68, percentual: 55, venda: "15,90", categoria: "bisnagas", img: "https://www.docesantunes.com.br/painel/produtos/imagens/20221007_081522-removebg-preview.png" },
+            { nome: "Doce de Leite com Morango", apresentacao: "Pote 300 g", custo: 7.26, percentual: 55, venda: "13,90", categoria: "bisnagas", img: "https://www.docesantunes.com.br/painel/produtos/imagens/20221007_081509-removebg-preview.png" },
+            { nome: "Doce de Goiaba Cascão", apresentacao: "Pote 300 g", custo: 4.95, percentual: 55, venda: "9,90", categoria: "bisnagas", img: "https://www.docesantunes.com.br/painel/produtos/imagens/20221007_081546-removebg-preview.png" },
+            { nome: "Doce de Leite Pastoso", apresentacao: "Pote 500 g", custo: 11.26, percentual: 55, venda: "21,90", categoria: "bisnagas", img: "https://www.docesantunes.com.br/painel/produtos/imagens/20221007_081559-removebg-preview.png" }
         ];
 
         let produtos = [];
         produtosRaw.forEach((p, index) => {
-            const precoCalculado = calcSalePrice(p.custo, p.percentual);
+            const precoNumerico = parsePriceToNumber(p.venda);
             produtos.push({
                 id: index + 1,
                 nome: p.nome,
                 apresentacao: p.apresentacao,
                 custo: p.custo,
                 percentual: p.percentual,
+                vendaString: p.venda,
                 categoria: p.categoria,
-                preco: precoCalculado,
+                preco: precoNumerico,
                 img: p.img
             });
         });
@@ -1169,80 +1125,50 @@
             if (saved) {
                 try {
                     cart = JSON.parse(saved);
-                } catch(e) {
-                    cart = [];
-                }
+                } catch(e) { cart = []; }
             }
             updateCartUI();
         }
-        
         function saveCart() {
             localStorage.setItem('docesDoDanCart', JSON.stringify(cart));
             updateCartUI();
         }
-        
         function addToCart(product) {
             const existing = cart.find(item => item.id === product.id);
-            if (existing) {
-                existing.quantity++;
-            } else {
-                cart.push({ 
-                    id: product.id, 
-                    nome: product.nome, 
-                    apresentacao: product.apresentacao, 
-                    preco: product.preco,
-                    img: product.img,
-                    quantity: 1 
-                });
-            }
+            if (existing) existing.quantity++;
+            else cart.push({ id: product.id, nome: product.nome, apresentacao: product.apresentacao, preco: product.preco, img: product.img, quantity: 1 });
             saveCart();
             showToast(`${product.nome} adicionado!`);
         }
-        
-        function removeFromCart(productId) {
-            cart = cart.filter(item => item.id !== productId);
-            saveCart();
-        }
-        
+        function removeFromCart(productId) { cart = cart.filter(item => item.id !== productId); saveCart(); }
         function updateQuantity(productId, delta) {
             const item = cart.find(item => item.id === productId);
             if (item) {
                 item.quantity += delta;
-                if (item.quantity <= 0) {
-                    removeFromCart(productId);
-                } else {
-                    saveCart();
-                }
+                if (item.quantity <= 0) removeFromCart(productId);
+                else saveCart();
             }
         }
-        
-        function getTotal() {
-            return cart.reduce((sum, item) => sum + (item.preco * item.quantity), 0);
-        }
-        
+        function getTotal() { return cart.reduce((sum, item) => sum + (item.preco * item.quantity), 0); }
         function updateCartUI() {
             const badge = document.getElementById('cartBadge');
             const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
             if (badge) badge.textContent = totalItems;
-            
             const cartItemsDiv = document.getElementById('cartItems');
             const totalSpan = document.getElementById('totalPrice');
-            
             if (!cartItemsDiv) return;
-            
             if (cart.length === 0) {
                 cartItemsDiv.innerHTML = '<div class="empty-cart">Seu carrinho está vazio 😢</div>';
                 if (totalSpan) totalSpan.textContent = 'R$ 0,00';
                 return;
             }
-            
             cartItemsDiv.innerHTML = cart.map(item => `
                 <div class="cart-item">
                     <img class="cart-item-img" src="${item.img}" onerror="this.src='https://placehold.co/300x200/e3f2fd/1e88e5?text=Doces'">
                     <div class="cart-item-info">
                         <div class="cart-item-name">${item.nome}</div>
                         <div class="cart-item-desc">${item.apresentacao}</div>
-                        <div class="cart-item-price">R$ ${item.preco.toFixed(2)}</div>
+                        <div class="cart-item-price">R$ ${formatPriceBRL(item.preco)}</div>
                         <div class="cart-item-actions">
                             <button class="qty-btn" onclick="window.updateQuantity(${item.id}, -1)">-</button>
                             <span class="item-qty">${item.quantity}</span>
@@ -1252,128 +1178,53 @@
                     <button class="remove-item" onclick="window.removeFromCart(${item.id})">🗑️</button>
                 </div>
             `).join('');
-            if (totalSpan) totalSpan.textContent = `R$ ${getTotal().toFixed(2)}`;
+            if (totalSpan) totalSpan.textContent = `R$ ${formatPriceBRL(getTotal())}`;
         }
         
         function generateWhatsAppMessage(nome, telefone, mensagem) {
             let orderText = `*${STORE_NAME}*\n\n`;
-            orderText += `👤 *Cliente:* ${nome}\n`;
-            orderText += `📞 *Telefone:* ${telefone}\n\n`;
+            orderText += `👤 *Cliente:* ${nome}\n📞 *Telefone:* ${telefone}\n\n`;
             orderText += `📋 *MEU PEDIDO:*\n\n`;
-            
-            cart.forEach(item => {
-                orderText += `• ${item.quantity}x ${item.nome} - ${item.apresentacao} - R$ ${(item.preco * item.quantity).toFixed(2)}\n`;
-            });
-            
-            orderText += `\n━━━━━━━━━━━━━━━━━━\n`;
-            orderText += `💰 *TOTAL: R$ ${getTotal().toFixed(2)}*\n\n`;
-            
-            if (mensagem) {
-                orderText += `💬 *Mensagem:* ${mensagem}\n\n`;
-            }
-            
+            cart.forEach(item => { orderText += `• ${item.quantity}x ${item.nome} - ${item.apresentacao} - R$ ${formatPriceBRL(item.preco * item.quantity)}\n`; });
+            orderText += `\n━━━━━━━━━━━━━━━━━━\n💰 *TOTAL: R$ ${formatPriceBRL(getTotal())}*\n\n`;
+            if (mensagem) orderText += `💬 *Mensagem:* ${mensagem}\n\n`;
             orderText += `✨ *Obrigado pelo pedido!* ✨`;
-            
             return encodeURIComponent(orderText);
         }
         
         function sendToWhatsAppFinal() {
-            if (cart.length === 0) {
-                showToast('Adicione itens ao carrinho primeiro!');
-                return;
-            }
-            
+            if (cart.length === 0) { showToast('Adicione itens ao carrinho primeiro!'); return; }
             const nome = document.getElementById('whatsappName').value.trim();
             const telefone = document.getElementById('whatsappPhone').value.trim();
             const mensagem = document.getElementById('whatsappMessage').value;
-            
-            if (!nome) {
-                showToast('Por favor, digite seu nome');
-                return;
-            }
-            if (!telefone) {
-                showToast('Por favor, digite seu telefone com DDD');
-                return;
-            }
-            
-            const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${generateWhatsAppMessage(nome, telefone, mensagem)}`;
-            window.open(whatsappUrl, '_blank');
+            if (!nome || !telefone) { showToast('Preencha nome e telefone'); return; }
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${generateWhatsAppMessage(nome, telefone, mensagem)}`, '_blank');
             closeWhatsappModal();
         }
         
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            if (toast) {
-                toast.textContent = message;
-                toast.classList.add('show');
-                setTimeout(() => toast.classList.remove('show'), 1500);
-            }
-        }
+        function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 1500); }
+        function openProductModal(product) { document.getElementById('modalProductImg').src = product.img; document.getElementById('modalProductName').textContent = product.nome; document.getElementById('modalProductDesc').textContent = product.apresentacao; document.getElementById('modalProductPrice').textContent = `R$ ${product.vendaString}`; document.getElementById('productModal').classList.add('active'); }
+        function closeProductModal() { document.getElementById('productModal').classList.remove('active'); }
+        function openWhatsappModal() { document.getElementById('whatsappModal').classList.add('active'); }
+        function closeWhatsappModal() { document.getElementById('whatsappModal').classList.remove('active'); document.getElementById('whatsappName').value = ''; document.getElementById('whatsappPhone').value = ''; document.getElementById('whatsappMessage').value = ''; }
+        function openInstagram() { window.open(INSTAGRAM_URL, '_blank'); }
         
-        function openProductModal(product) {
-            document.getElementById('modalProductImg').src = product.img;
-            document.getElementById('modalProductName').textContent = product.nome;
-            document.getElementById('modalProductDesc').textContent = product.apresentacao;
-            document.getElementById('modalProductPrice').textContent = `R$ ${product.preco.toFixed(2)}`;
-            document.getElementById('productModal').classList.add('active');
-        }
-        
-        function closeProductModal() {
-            document.getElementById('productModal').classList.remove('active');
-        }
-        
-        function openWhatsappModal() {
-            document.getElementById('whatsappModal').classList.add('active');
-        }
-        
-        function closeWhatsappModal() {
-            document.getElementById('whatsappModal').classList.remove('active');
-            document.getElementById('whatsappName').value = '';
-            document.getElementById('whatsappPhone').value = '';
-            document.getElementById('whatsappMessage').value = '';
-        }
-        
-        function openInstagram() {
-            window.open(INSTAGRAM_URL, '_blank');
-        }
-        
-        function navigateToHome() {
-            navigateTo('home');
-        }
+        const categoriasConfig = [
+            { id: "caixinhas", nome: "Caixinhas Gourmet", icone: "🍬", ordem: 1 },
+            { id: "bombons", nome: "Bombons e Finos", icone: "🍫", ordem: 2 },
+            { id: "vidrinhos", nome: "Vidrinhos (300g)", icone: "🥄", ordem: 3 },
+            { id: "vidros", nome: "Doces em Vidro (700g)", icone: "🍯", ordem: 4 },
+            { id: "bisnagas", nome: "Bisnagas e Potes", icone: "🧴", ordem: 5 }
+        ].sort((a,b)=>a.ordem-b.ordem);
         
         function renderHomePage() {
             const homeDiv = document.getElementById('homeCarousels');
             if (!homeDiv) return;
-            
             let html = '';
             for (const cat of categoriasConfig) {
                 const produtosCat = produtos.filter(p => p.categoria === cat.id);
-                if (produtosCat.length > 0) {
-                    html += `
-                        <div class="carousel-container">
-                            <div class="carousel-title">
-                                <h3>${cat.icone} ${cat.nome}</h3>
-                                <button onclick="navigateToProductsWithCategory('${cat.id}')">Ver todos →</button>
-                            </div>
-                            <div class="carousel">
-                                <div class="carousel-track">
-                                    ${produtosCat.map(product => `
-                                        <div class="carousel-item">
-                                            <div class="product-card">
-                                                <img class="product-img" src="${product.img}" onclick="openProductModal(${JSON.stringify(product).replace(/"/g, '&quot;')})">
-                                                <div class="product-info">
-                                                    <div class="product-name" onclick="openProductModal(${JSON.stringify(product).replace(/"/g, '&quot;')})">${product.nome}</div>
-                                                    <div class="product-desc">${product.apresentacao}</div>
-                                                    <div class="product-price">R$ ${product.preco.toFixed(2)}</div>
-                                                </div>
-                                                <div class="add-btn" onclick="event.stopPropagation(); window.addToCart(${JSON.stringify(product).replace(/"/g, '&quot;')})">+</div>
-                                            </div>
-                                        </div>
-                                    `).join('')}
-                                </div>
-                            </div>
-                        </div>
-                    `;
+                if (produtosCat.length) {
+                    html += `<div class="carousel-container"><div class="carousel-title"><h3>${cat.icone} ${cat.nome}</h3><button onclick="navigateToProductsWithCategory('${cat.id}')">Ver todos →</button></div><div class="carousel"><div class="carousel-track">${produtosCat.map(p => `<div class="carousel-item"><div class="product-card"><img class="product-img" src="${p.img}" onclick="openProductModal(${JSON.stringify(p).replace(/"/g, '&quot;')})"><div class="product-info"><div class="product-name" onclick="openProductModal(${JSON.stringify(p).replace(/"/g, '&quot;')})">${p.nome}</div><div class="product-desc">${p.apresentacao}</div><div class="product-price">R$ ${p.vendaString}</div></div><div class="add-btn" onclick="event.stopPropagation(); window.addToCart(${JSON.stringify(p).replace(/"/g, '&quot;')})">+</div></div></div>`).join('')}</div></div></div>`;
                 }
             }
             homeDiv.innerHTML = html;
@@ -1381,202 +1232,61 @@
         
         function renderCategoriesTop() {
             const container = document.getElementById('categoriesTop');
-            if (!container) return;
-            
             let html = `<button class="cat-btn active" data-cat="all">🍰 Todos</button>`;
-            for (const cat of categoriasConfig) {
-                html += `<button class="cat-btn" data-cat="${cat.id}">${cat.icone} ${cat.nome}</button>`;
-            }
+            categoriasConfig.forEach(cat => { html += `<button class="cat-btn" data-cat="${cat.id}">${cat.icone} ${cat.nome}</button>`; });
             container.innerHTML = html;
-            
             document.querySelectorAll('#categoriesTop .cat-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
                     document.querySelectorAll('#categoriesTop .cat-btn').forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
-                    const cat = btn.dataset.cat;
-                    renderProducts(cat === 'all' ? null : cat);
+                    renderProducts(btn.dataset.cat === 'all' ? null : btn.dataset.cat);
                 });
             });
         }
         
         function renderProducts(category = null) {
             const grid = document.getElementById('productsGrid');
-            if (!grid) return;
-            
             const filtered = category ? produtos.filter(p => p.categoria === category) : produtos;
-            
-            if (filtered.length === 0) {
-                grid.innerHTML = '<div style="text-align:center; padding:40px;">Nenhum produto encontrado 😢</div>';
-                return;
-            }
-            
-            grid.innerHTML = filtered.map(product => `
-                <div class="product-card">
-                    <img class="product-img" src="${product.img}" onclick="openProductModal(${JSON.stringify(product).replace(/"/g, '&quot;')})">
-                    <div class="product-info">
-                        <div class="product-name" onclick="openProductModal(${JSON.stringify(product).replace(/"/g, '&quot;')})">${product.nome}</div>
-                        <div class="product-desc">${product.apresentacao}</div>
-                        <div class="product-price">R$ ${product.preco.toFixed(2)}</div>
-                    </div>
-                    <div class="add-btn" onclick="event.stopPropagation(); window.addToCart(${JSON.stringify(product).replace(/"/g, '&quot;')})">+</div>
-                </div>
-            `).join('');
+            if (!filtered.length) { grid.innerHTML = '<div style="text-align:center; padding:40px;">Nenhum produto encontrado 😢</div>'; return; }
+            grid.innerHTML = filtered.map(p => `<div class="product-card"><img class="product-img" src="${p.img}" onclick="openProductModal(${JSON.stringify(p).replace(/"/g, '&quot;')})"><div class="product-info"><div class="product-name" onclick="openProductModal(${JSON.stringify(p).replace(/"/g, '&quot;')})">${p.nome}</div><div class="product-desc">${p.apresentacao}</div><div class="product-price">R$ ${p.vendaString}</div></div><div class="add-btn" onclick="event.stopPropagation(); window.addToCart(${JSON.stringify(p).replace(/"/g, '&quot;')})">+</div></div>`).join('');
         }
         
         function renderSidebarMenu() {
             const container = document.getElementById('sidebarMenu');
-            if (!container) return;
-            
-            let html = `
-                <div class="sidebar-item" data-page="home">
-                    <i class="fas fa-home"></i>
-                    <span>Início</span>
-                </div>
-            `;
-            
-            for (const cat of categoriasConfig) {
-                const produtosCat = produtos.filter(p => p.categoria === cat.id);
-                html += `
-                    <div class="sidebar-item" data-category="${cat.id}">
-                        <span>${cat.icone}</span>
-                        <span>${cat.nome} (${produtosCat.length})</span>
-                    </div>
-                `;
-            }
-            
-            html += `
-                <div class="sidebar-item" data-page="origem">
-                    <i class="fas fa-child"></i>
-                    <span>História do Dan</span>
-                </div>
-                <div class="sidebar-item" data-page="prazos">
-                    <i class="fas fa-clock"></i>
-                    <span>Prazos das Encomendas</span>
-                </div>
-            `;
-            
+            let html = `<div class="sidebar-item" data-page="home"><i class="fas fa-home"></i><span>Início</span></div>`;
+            categoriasConfig.forEach(cat => { html += `<div class="sidebar-item" data-category="${cat.id}"><span>${cat.icone}</span><span>${cat.nome}</span></div>`; });
+            html += `<div class="sidebar-item" data-page="origem"><i class="fas fa-child"></i><span>História do Dan</span></div><div class="sidebar-item" data-page="prazos"><i class="fas fa-clock"></i><span>Prazos das Encomendas</span></div>`;
             container.innerHTML = html;
-            
             container.querySelectorAll('.sidebar-item').forEach(item => {
-                item.addEventListener('click', () => {
-                    const page = item.dataset.page;
-                    const category = item.dataset.category;
-                    closeSidebar();
-                    if (page) {
-                        navigateTo(page);
-                    } else if (category) {
-                        navigateToProductsWithCategory(category);
-                    }
-                });
+                item.addEventListener('click', () => { const p = item.dataset.page, cat = item.dataset.category; closeSidebar(); if(p) navigateTo(p); else if(cat) navigateToProductsWithCategory(cat); });
             });
         }
         
-        function navigateToProductsWithCategory(categoryId) {
-            navigateTo('products');
-            setTimeout(() => {
-                const buttons = document.querySelectorAll('#categoriesTop .cat-btn');
-                buttons.forEach(btn => {
-                    if (btn.dataset.cat === categoryId) {
-                        btn.click();
-                    }
-                });
-            }, 100);
-        }
-        
-        function navigateTo(pageId) {
-            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-            const targetPage = document.getElementById(pageId + 'Page');
-            if (targetPage) targetPage.classList.add('active');
-            
-            document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
-            const activeMenuItem = document.querySelector(`.menu-item[data-page="${pageId}"]`);
-            if (activeMenuItem) activeMenuItem.classList.add('active');
-        }
-        
-        function openSidebar() {
-            document.getElementById('sidebar').classList.add('open');
-            document.getElementById('sidebarOverlay').classList.add('open');
-        }
-        
-        function closeSidebar() {
-            document.getElementById('sidebar').classList.remove('open');
-            document.getElementById('sidebarOverlay').classList.remove('open');
-        }
+        function navigateToProductsWithCategory(categoryId) { navigateTo('products'); setTimeout(() => { document.querySelectorAll('#categoriesTop .cat-btn').forEach(btn => { if(btn.dataset.cat === categoryId) btn.click(); }); }, 100); }
+        function navigateTo(pageId) { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); document.getElementById(pageId + 'Page').classList.add('active'); document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active')); const activeMenuItem = document.querySelector(`.menu-item[data-page="${pageId}"]`); if(activeMenuItem) activeMenuItem.classList.add('active'); }
+        function openSidebar() { document.getElementById('sidebar').classList.add('open'); document.getElementById('sidebarOverlay').classList.add('open'); }
+        function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('sidebarOverlay').classList.remove('open'); }
         
         function init() {
-            loadCart();
-            renderHomePage();
-            renderCategoriesTop();
-            renderProducts();
-            renderSidebarMenu();
-            
-            document.getElementById('headerLogo').addEventListener('click', navigateToHome);
+            loadCart(); renderHomePage(); renderCategoriesTop(); renderProducts(); renderSidebarMenu();
+            document.getElementById('headerLogo').addEventListener('click', () => navigateTo('home'));
             document.getElementById('menuToggle').addEventListener('click', openSidebar);
             document.getElementById('closeSidebar').addEventListener('click', closeSidebar);
             document.getElementById('sidebarOverlay').addEventListener('click', closeSidebar);
-            
-            document.querySelectorAll('.menu-item[data-page]').forEach(item => {
-                item.addEventListener('click', () => {
-                    const page = item.dataset.page;
-                    if (page === 'home') {
-                        navigateTo('home');
-                    } else if (page === 'products') {
-                        navigateTo('products');
-                        setTimeout(() => {
-                            const allBtn = document.querySelector('#categoriesTop .cat-btn[data-cat="all"]');
-                            if (allBtn) allBtn.click();
-                        }, 100);
-                    } else {
-                        navigateTo(page);
-                    }
-                });
-            });
-            
+            document.querySelectorAll('.menu-item[data-page]').forEach(item => { item.addEventListener('click', () => { const page = item.dataset.page; if(page === 'home') navigateTo('home'); else if(page === 'products') { navigateTo('products'); setTimeout(() => { const allBtn = document.querySelector('#categoriesTop .cat-btn[data-cat="all"]'); if(allBtn) allBtn.click(); }, 100); } else navigateTo(page); }); });
             document.getElementById('instagramMenuBtn').addEventListener('click', openInstagram);
             document.getElementById('whatsappMenuBtn').addEventListener('click', openWhatsappModal);
-            
-            const modal = document.getElementById('cartModal');
-            const cartFab = document.getElementById('cartFab');
-            const closeModal = document.getElementById('closeModal');
-            
-            if (cartFab) {
-                cartFab.addEventListener('click', () => {
-                    if (modal) modal.classList.add('active');
-                });
-            }
-            
-            if (closeModal) {
-                closeModal.addEventListener('click', () => {
-                    if (modal) modal.classList.remove('active');
-                });
-            }
-            
-            if (modal) {
-                modal.addEventListener('click', (e) => { 
-                    if (e.target === modal) modal.classList.remove('active'); 
-                });
-            }
-            
-            document.getElementById('openWhatsappModalBtn').addEventListener('click', () => {
-                if (modal) modal.classList.remove('active');
-                openWhatsappModal();
-            });
-            
+            const modal = document.getElementById('cartModal'), cartFab = document.getElementById('cartFab'), closeModal = document.getElementById('closeModal');
+            if(cartFab) cartFab.addEventListener('click', () => modal.classList.add('active'));
+            if(closeModal) closeModal.addEventListener('click', () => modal.classList.remove('active'));
+            if(modal) modal.addEventListener('click', (e) => { if(e.target === modal) modal.classList.remove('active'); });
+            document.getElementById('openWhatsappModalBtn').addEventListener('click', () => { modal.classList.remove('active'); openWhatsappModal(); });
             document.getElementById('sendWhatsappFinalBtn').addEventListener('click', sendToWhatsAppFinal);
             document.getElementById('closeWhatsappModal').addEventListener('click', closeWhatsappModal);
-            
-            document.getElementById('productModal').addEventListener('click', (e) => {
-                if (e.target === document.getElementById('productModal')) closeProductModal();
-            });
+            document.getElementById('productModal').addEventListener('click', (e) => { if(e.target === document.getElementById('productModal')) closeProductModal(); });
         }
         
-        window.addToCart = addToCart;
-        window.removeFromCart = removeFromCart;
-        window.updateQuantity = updateQuantity;
-        window.openProductModal = openProductModal;
-        window.closeProductModal = closeProductModal;
-        window.navigateToProductsWithCategory = navigateToProductsWithCategory;
-        
+        window.addToCart = addToCart; window.removeFromCart = removeFromCart; window.updateQuantity = updateQuantity; window.openProductModal = openProductModal; window.closeProductModal = closeProductModal; window.navigateToProductsWithCategory = navigateToProductsWithCategory;
         init();
     </script>
 </body>
