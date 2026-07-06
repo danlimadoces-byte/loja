@@ -61,22 +61,22 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
-            max-width: 280px;
+            gap: 20px;
+            max-width: 350px;
             width: 100%;
         }
 
         .logo img {
             width: 100%;
             height: auto;
-            max-width: 400px;
+            max-width: 500px;
             display: block;
         }
 
         .logo a { 
             display: flex; 
             align-items: center; 
-            gap: 10px; 
+            gap: 20px; 
             text-decoration: none; 
             cursor: pointer; 
         }
@@ -2769,48 +2769,47 @@
 </head>
 <body>
 
-    <!-- ===== HEADER ===== -->
-    <header class="header">
-        <div class="header-container">
-            <div class="logo">
-                <a href="#" onclick="showHome()">
-                    <img src="https://cdn.awsli.com.br/1608/1608652/arquivos/logo-dan.png" 
-                         alt="Doces do Dan" 
-                         id="logo-img"
-                         style="height:30px;width:auto;object-fit:contain;">
-                </a>
-            </div>
-            <div class="header-actions">
-                <span class="cliente-nome" id="clienteNomeHeader"></span>
-                <button class="btn-search" onclick="buscarProduto()" aria-label="Buscar">
-                    <i class="fas fa-search"></i>
+   <!-- ===== HEADER ===== -->
+<header class="header">
+    <div class="header-container">
+        <div class="logo">
+            <a href="#" onclick="showHome()">
+                <img src="https://cdn.awsli.com.br/1608/1608652/arquivos/logo-dan.png" 
+                     alt="Doces do Dan" 
+                     id="logo-img">
+            </a>  <!-- ⬅️ FECHA O <a> DEPOIS DA IMAGEM -->
+        </div>
+        <div class="header-actions">
+            <span class="cliente-nome" id="clienteNomeHeader"></span>
+            <button class="btn-search" onclick="buscarProduto()" aria-label="Buscar">
+                <i class="fas fa-search"></i>
+            </button>
+            <button class="btn-cart" onclick="abrirCarrinho()" aria-label="Carrinho">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="badge" id="cartBadgeTop">0</span>
+            </button>
+            <div class="user-dropdown">
+                <button class="btn-login" onclick="toggleUserMenu()" aria-label="Login" id="btnUserMenu">
+                    <i class="fas fa-user"></i>
                 </button>
-                <button class="btn-cart" onclick="abrirCarrinho()" aria-label="Carrinho">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="badge" id="cartBadgeTop">0</span>
-                </button>
-                <div class="user-dropdown">
-                    <button class="btn-login" onclick="toggleUserMenu()" aria-label="Login" id="btnUserMenu">
-                        <i class="fas fa-user"></i>
-                    </button>
-                    <div class="user-dropdown-content" id="userDropdown">
-                        <div class="dropdown-item login-item" onclick="abrirLogin()">
-                            <i class="fas fa-sign-in-alt"></i> Entrar / Cadastrar
-                        </div>
-                        <div class="dropdown-item" onclick="abrirDadosPessoais()" style="display:none;">
-                            <i class="fas fa-user-circle"></i> Dados Pessoais
-                        </div>
-                        <div class="dropdown-item" onclick="abrirMeusPedidos()" style="display:none;">
-                            <i class="fas fa-box"></i> Meus Pedidos
-                        </div>
-                        <div class="dropdown-item sair" onclick="sairConta()" style="display:none;">
-                            <i class="fas fa-sign-out-alt"></i> Sair da Conta
-                        </div>
+                <div class="user-dropdown-content" id="userDropdown">
+                    <div class="dropdown-item login-item" onclick="abrirLogin()">
+                        <i class="fas fa-sign-in-alt"></i> Entrar / Cadastrar
+                    </div>
+                    <div class="dropdown-item" onclick="abrirDadosPessoais()" style="display:none;">
+                        <i class="fas fa-user-circle"></i> Dados Pessoais
+                    </div>
+                    <div class="dropdown-item" onclick="abrirMeusPedidos()" style="display:none;">
+                        <i class="fas fa-box"></i> Meus Pedidos
+                    </div>
+                    <div class="dropdown-item sair" onclick="sairConta()" style="display:none;">
+                        <i class="fas fa-sign-out-alt"></i> Sair da Conta
                     </div>
                 </div>
             </div>
         </div>
-    </header>
+    </div>
+</header>
 
     <!-- ===== MAIN CONTENT ===== -->
     <main class="main-content">
@@ -9316,16 +9315,7 @@ function encontrarEstoquePorNomenclatura(product, step) {
                 ativo: true
             },
 {
-                id: 1,
-                imagem_pc: 'https://www.docesantunes.com.br/assets/img/gallery/doce-especial-banner-site.jpg',
-                imagem_mobile: 'https://www.docesantunes.com.br/assets/img/gallery/doce-especial-banner-site.jpg',
-                titulo: '',
-                subtitulo: '',
-                link: '',
-                btnTexto: '',
-                ativo: true
-            },
-            {
+            
                 id: 1,
                 imagem_pc: 'https://www.docesantunes.com.br/assets/img/gallery/banner-4-1.jpg',
                 imagem_mobile: 'https://www.docesantunes.com.br/assets/img/gallery/banner-4-1.jpg',
