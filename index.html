@@ -2764,6 +2764,16 @@
             background: #1da851;
             transform: scale(1.02);
         }
+
+        /* ===== INDICADOR DE ATUALIZAÇÃO EM SEGUNDO PLANO ===== */
+#indicadorAtualizacao {
+    animation: slideUpNotif 0.3s ease;
+}
+
+@keyframes slideUpNotif {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
@@ -8776,228 +8786,513 @@ function encontrarEstoquePorNomenclatura(product, step) {
             }
         }
 
-        // ============================================================
-        // CARREGAR DADOS DA PLANILHA
-        // ============================================================
-  async function carregarDadosPlanilha() {
+   // ============================================================
+// 🚀 NOVO SISTEMA DE CARREGAMENTO OTIMIZADO
+// ============================================================
+
+// Chave para armazenar no localStorage
+const CACHE_KEY = 'doces_do_dan_cache';
+const CACHE_TIMESTAMP_KEY = 'doces_do_dan_cache_timestamp';
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutos (ajuste conforme necessidade)
+
+// ============================================================
+// FUNÇÃO PRINCIPAL - CARREGAMENTO INSTANTÂNEO
+// ============================================================
+async function carregarDadosPlanilha() {
     if (carregando) return;
     carregando = true;
 
     try {
-        mostrarLoading(true);
-        console.log('🔄 Buscando dados da planilha...');
-        const response = await fetch(API_URL + '?_t=' + Date.now());
-
-        if (!response.ok) {
-            throw new Error(`Erro HTTP: ${response.status}`);
+        // 🔥 PASSO 1: TENTA CARREGAR DO CACHE IMEDIATAMENTE
+        const cacheCarregado = carregarDoCache();
+        
+        if (cacheCarregado) {
+            console.log('✅ Dados carregados do CACHE (instantâneo)!');
+            dadosCarregados = true;
+            mostrarLoading(false);
+            init();
+            
+            // 🔥 PASSO 2: ATUALIZA EM SEGUNDO PLANO
+            atualizarEmSegundoPlano();
+        } else {
+            // 🔥 PASSO 3: SEM CACHE - MOSTRA LOADING E CARREGA
+            console.log('🔄 Sem cache, carregando da planilha...');
+            mostrarLoading(true);
+            
+            // Mostra um loading mais amigável
+            const loadingEl = document.getElementById('loadingIndicator');
+            if (loadingEl) {
+                loadingEl.innerHTML = `
+                    <div class="spinner"></div>
+                    <p>🔄 Carregando produtos...</p>
+                    <span class="loading-sub">Preparando tudo para você</span>
+                    <div style="margin-top:15px;font-size:12px;color:#999;">
+                        <i class="fas fa-cloud"></i> Buscando dados da planilha...
+                    </div>
+                `;
+            }
+            
+            // Carrega da planilha (pode demorar)
+            await carregarDaPlanilha();
+            
+            // Salva no cache para próxima vez
+            salvarNoCache(PRODUCTS_DATA);
+            
+            mostrarLoading(false);
+            dadosCarregados = true;
+            init();
         }
-
-        const data = await response.json();
-        console.log('📊 Dados recebidos:', data);
-
-        if (!data.produtos || !data.categorias) {
-            throw new Error('Estrutura de dados inválida');
-        }
-
-        // FILTRA PRODUTOS ATIVOS
-        const produtosAtivos = data.produtos.filter(p =>
-            (p.produto_ativado || '').toUpperCase() === 'SIM'
-        );
-        console.log(`📦 ${produtosAtivos.length} produtos ativos de ${data.produtos.length}`);
-
-        // CRIA CATEGORIAS COM SEUS PRODUTOS
-        PRODUCTS_DATA.categories = data.categorias.map(cat => {
-            const produtosDaCategoria = produtosAtivos.filter(p => p.categoria === cat.nome);
-            return {
-                id: parseInt(cat.id) || 0,
-                name: cat.nome || 'Categoria sem nome',
-                description: cat.descricao || '',
-                image: cat.imagem || '',
-                products: produtosDaCategoria.map(p => {
-                    // ⭐ FUNÇÃO PARA CONVERTER ESTOQUE POR NOMENCLATURA
-                    function converterEstoqueNomenclaturaParaObjeto(estoqueString) {
-                        const estoqueObj = {};
-                        if (!estoqueString) return estoqueObj;
-                        estoqueString.split(';').forEach(item => {
-                            const parts = item.trim().split(':');
-                            if (parts.length === 2) {
-                                estoqueObj[parts[0]] = parseInt(parts[1]) || 0;
-                            }
-                        });
-                        return estoqueObj;
-                    }
-
-                    // ⭐ FUNÇÃO PARA CONVERTER CUSTO POR NOMENCLATURA
-                    function converterCustoNomenclaturaParaObjeto(custoString) {
-                        const custoObj = {};
-                        if (!custoString) return custoObj;
-                        custoString.split(';').forEach(item => {
-                            const parts = item.trim().split(':');
-                            if (parts.length === 2) {
-                                custoObj[parts[0]] = parseFloat(parts[1]) || 0;
-                            }
-                        });
-                        return custoObj;
-                    }
-
-                    // ⭐ QUANTIDADES - CONVERTE PARA TEXTO
-                    let qtyList = [];
-                    if (p.quantidades) {
-                        // Se já vier como texto com "g", mantém; senão, adiciona "g"
-                        const rawQtys = p.quantidades.split(',').map(q => q.trim());
-                        qtyList = rawQtys.map(q => {
-                            // Se for número puro (ex: "300"), vira "300g"
-                            if (/^\d+$/.test(q)) {
-                                return q + 'g';
-                            }
-                            return q;
-                        });
-                    }
-
-                    // PREÇOS
-                    const precoMap = {};
-                    if (p.preco_venda) {
-                        p.preco_venda.split(';').forEach(item => {
-                            const parts = item.trim().split(':');
-                            if (parts.length === 2) {
-                                // A chave pode ser "300g" ou "300"
-                                const chave = parts[0].trim();
-                                precoMap[chave] = parseFloat(parts[1]) || 0;
-                            }
-                        });
-                    }
-
-                    // ⭐ CORREÇÃO: Se não encontrar preço, tenta com a versão sem "g"
-                    qtyList.forEach(q => {
-                        const semG = q.replace('g', '');
-                        if (!precoMap[q] && precoMap[semG]) {
-                            precoMap[q] = precoMap[semG];
-                        }
-                    });
-
-                    // PESOS E MEDIDAS
-                    const pesoMap = {};
-                    const dimsMap = {};
-                    if (p.pesos_medidas && p.pesos_medidas.trim() !== '') {
-                        p.pesos_medidas.split(';').forEach(item => {
-                            const parts = item.trim().split(':');
-                            if (parts.length === 2) {
-                                const qtd = parts[0].trim();
-                                const dados = parts[1] || '';
-                                const pesoDims = dados.split('-');
-                                if (pesoDims.length === 2) {
-                                    pesoMap[qtd] = pesoDims[0] || '';
-                                    dimsMap[qtd] = pesoDims[1] || '';
-                                } else {
-                                    pesoMap[qtd] = dados;
-                                    dimsMap[qtd] = '';
-                                }
-                            }
-                        });
-                    }
-
-                    let pesoUnitario = 0;
-                    let dimensoesPadrao = '';
-                    if (p.peso_unitario && p.peso_unitario.trim() !== '') {
-                        pesoUnitario = parseFloat(p.peso_unitario) || 0;
-                    }
-                    if (p.dimensoes && p.dimensoes.trim() !== '') {
-                        dimensoesPadrao = p.dimensoes.trim();
-                    }
-
-                    const quantities = qtyList.map(qty => {
-                        let weight = pesoMap[qty] || '';
-                        let dimensions = dimsMap[qty] || '';
-                        if (!weight && pesoUnitario > 0) {
-                            const numQty = parseInt(qty.replace(/\D/g, '')) || 1;
-                            weight = (pesoUnitario * numQty).toFixed(3) + 'kg';
-                        }
-                        if (!dimensions && dimensoesPadrao) {
-                            dimensions = dimensoesPadrao;
-                        }
-                        return {
-                            qty: qty, // ⭐ MANTÉM COMO TEXTO: "300g", "500g"
-                            price: precoMap[qty] || 0,
-                            weight: weight,
-                            dimensions: dimensions
-                        };
-                    });
-
-                    // IMAGENS
-                    let images = [];
-                    if (p.imagens_carousel) {
-                        images = p.imagens_carousel.split(',').map(img => img.trim()).filter(img => img && img.length > 0);
-                    }
-                    if (images.length === 0 && p.imagem_principal) {
-                        const img = p.imagem_principal.trim();
-                        if (img && img.length > 0) images = [img];
-                    }
-                    if (images.length === 0 && p.imagem) {
-                        const img = p.imagem.trim();
-                        if (img && img.length > 0) images = [img];
-                    }
-                    if (images.length === 0 && p.foto) {
-                        const img = p.foto.trim();
-                        if (img && img.length > 0) images = [img];
-                    }
-                    if (images.length === 0 && p.imagens) {
-                        images = p.imagens.split(',').map(img => img.trim()).filter(img => img && img.length > 0);
-                    }
-                    if (images.length === 0 && cat.imagem) {
-                        images = [cat.imagem];
-                    }
-
-                    const venderZerado = (p.vender_zerado || '').toUpperCase() === 'SIM';
-
-                    // ⭐ CRIA O OBJETO DO PRODUTO COM TODOS OS CAMPOS
-                    const produto = {
-                        id: parseInt(p.id) || 0,
-                        name: p.nome || 'Produto sem nome',
-                        description: p.descricao || '',
-                        images: images,
-                        quantities: quantities,
-                        stock: parseInt(p.estoque) || 0,
-                        productionDays: parseInt(p.prazo_producao) || 0,
-                        weight: parseFloat(p.peso_unitario) || 0,
-                        height: 0,
-                        width: 0,
-                        length: 0,
-                        codigo: p.codigo_produto || '',
-                        ncm: p.ncm || '',
-                        ativado: (p.produto_ativado || '').toUpperCase() === 'SIM',
-                        vender_zerado: venderZerado,
-                        // ⭐ NOVOS CAMPOS PARA ESTOQUE POR NOMENCLATURA
-                        estoque_por_nomenclatura: p.estoque_por_nomenclatura || '',
-                        estoque_por_nomenclatura_obj: converterEstoqueNomenclaturaParaObjeto(p.estoque_por_nomenclatura || ''),
-                        preco_custo_por_nomenclatura: p.preco_custo_por_nomenclatura || '',
-                        preco_custo_por_nomenclatura_obj: converterCustoNomenclaturaParaObjeto(p.preco_custo_por_nomenclatura || '')
-                    };
-
-                    console.log(`✅ Produto: ${produto.name}`);
-                    console.log(`   Quantidades:`, produto.quantities);
-                    console.log(`   Estoque por nomenclatura:`, produto.estoque_por_nomenclatura_obj);
-
-                    return produto;
-                })
-            };
-        });
-
-        dadosCarregados = true;
-        console.log('✅ Dados carregados com sucesso! Categorias:', PRODUCTS_DATA.categories.length);
-        mostrarLoading(false);
-        init();
-
+        
     } catch (error) {
         console.error('❌ Erro ao carregar dados:', error);
         mostrarLoading(false);
-        if (!dadosCarregados || PRODUCTS_DATA.categories.length === 0) {
-            alert('⚠️ Não foi possível carregar os produtos. Verifique sua conexão.');
+        
+        // Tenta carregar do cache como fallback
+        const fallbackCarregado = carregarDoCache();
+        if (fallbackCarregado) {
+            console.log('✅ Fallback: dados carregados do cache');
+            dadosCarregados = true;
+            init();
+            mostrarNotificacao('⚠️ Usando dados em cache. Atualize a página para buscar dados mais recentes.', 'warning');
+        } else {
+            // Erro crítico - mostra mensagem amigável
+            const grid = document.getElementById('categoriesGrid');
+            if (grid) {
+                grid.innerHTML = `
+                    <div style="grid-column:1/-1;text-align:center;padding:40px 20px;">
+                        <i class="fas fa-exclamation-triangle" style="font-size:48px;color:#f39c12;display:block;margin-bottom:15px;"></i>
+                        <h3 style="color:#333;">Não foi possível carregar os produtos</h3>
+                        <p style="color:#666;margin-bottom:10px;">Verifique sua conexão com a internet e tente novamente.</p>
+                        <button onclick="location.reload()" style="
+                            background: #1576BB;
+                            color: white;
+                            border: none;
+                            padding: 12px 30px;
+                            border-radius: 8px;
+                            cursor: pointer;
+                            font-weight: 600;
+                            font-size: 16px;
+                        ">
+                            <i class="fas fa-sync"></i> Tentar Novamente
+                        </button>
+                    </div>
+                `;
+            }
         }
-        init();
     } finally {
         carregando = false;
     }
 }
+
+// ============================================================
+// 📦 FUNÇÕES DE CACHE (localStorage)
+// ============================================================
+
+function salvarNoCache(dados) {
+    try {
+        const cacheData = {
+            dados: dados,
+            timestamp: Date.now(),
+            version: '1.0'
+        };
+        localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
+        localStorage.setItem(CACHE_TIMESTAMP_KEY, String(Date.now()));
+        console.log('💾 Dados salvos no cache!', new Date().toLocaleTimeString());
+    } catch (error) {
+        console.warn('⚠️ Erro ao salvar cache:', error);
+    }
+}
+
+function carregarDoCache() {
+    try {
+        const cacheRaw = localStorage.getItem(CACHE_KEY);
+        if (!cacheRaw) {
+            console.log('📭 Cache vazio');
+            return false;
+        }
+        
+        const cacheData = JSON.parse(cacheRaw);
+        const timestamp = parseInt(localStorage.getItem(CACHE_TIMESTAMP_KEY) || '0');
+        const idade = Date.now() - timestamp;
+        
+        // Verifica se o cache é recente (menos de 5 minutos)
+        if (idade > CACHE_DURATION) {
+            console.log(`⏰ Cache expirado (${Math.round(idade/60000)} minutos)`);
+            return false;
+        }
+        
+        // Verifica se tem dados válidos
+        if (!cacheData.dados || !cacheData.dados.categories || cacheData.dados.categories.length === 0) {
+            console.log('📭 Cache vazio ou inválido');
+            return false;
+        }
+        
+        // Restaura os dados
+        PRODUCTS_DATA = cacheData.dados;
+        console.log(`✅ Cache carregado! ${PRODUCTS_DATA.categories.length} categorias, ${PRODUCTS_DATA.categories.reduce((sum, cat) => sum + cat.products.length, 0)} produtos`);
+        console.log(`📅 Cache de ${new Date(timestamp).toLocaleString()}`);
+        
+        return true;
+        
+    } catch (error) {
+        console.warn('⚠️ Erro ao ler cache:', error);
+        return false;
+    }
+}
+
+// ============================================================
+// 🔄 ATUALIZAÇÃO EM SEGUNDO PLANO
+// ============================================================
+
+let atualizandoSegundoPlano = false;
+
+async function atualizarEmSegundoPlano() {
+    if (atualizandoSegundoPlano) return;
+    atualizandoSegundoPlano = true;
+    
+    try {
+        console.log('🔄 Atualizando dados em segundo plano...');
+        
+        // Mostra um indicador sutil de atualização
+        mostrarIndicadorAtualizacao(true);
+        
+        const response = await fetch(API_URL + '?_t=' + Date.now());
+        if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+        
+        const data = await response.json();
+        
+        if (data.produtos && data.categorias) {
+            // Processa os dados
+            const novosDados = processarDadosPlanilha(data);
+            
+            // Compara se houve mudanças significativas
+            const mudou = compararDados(PRODUCTS_DATA, novosDados);
+            
+            if (mudou) {
+                console.log('🔄 Dados atualizados em segundo plano!');
+                PRODUCTS_DATA = novosDados;
+                salvarNoCache(PRODUCTS_DATA);
+                
+                // Recarrega a interface sem travar
+                recarregarInterfaceLeve();
+                
+                mostrarNotificacao('✅ Produtos atualizados!', 'success');
+            } else {
+                console.log('✅ Nenhuma mudança detectada.');
+                // Atualiza o timestamp do cache
+                salvarNoCache(PRODUCTS_DATA);
+            }
+        }
+        
+    } catch (error) {
+        console.warn('⚠️ Erro na atualização em segundo plano:', error);
+    } finally {
+        atualizandoSegundoPlano = false;
+        mostrarIndicadorAtualizacao(false);
+    }
+}
+
+// ============================================================
+// 📊 PROCESSAR DADOS DA PLANILHA
+// ============================================================
+
+function processarDadosPlanilha(data) {
+    const produtosAtivos = data.produtos.filter(p =>
+        (p.produto_ativado || '').toUpperCase() === 'SIM'
+    );
+    
+    const categories = data.categorias.map(cat => {
+        const produtosDaCategoria = produtosAtivos.filter(p => p.categoria === cat.nome);
+        return {
+            id: parseInt(cat.id) || 0,
+            name: cat.nome || 'Categoria sem nome',
+            description: cat.descricao || '',
+            image: cat.imagem || '',
+            products: produtosDaCategoria.map(p => {
+                // ... (mesmo código de processamento que você já tem)
+                // Mantenha a mesma lógica de processamento de produtos
+                return processarProduto(p, cat);
+            })
+        };
+    });
+    
+    return { categories: categories };
+}
+
+function processarProduto(p, cat) {
+    // ⭐ FUNÇÃO PARA CONVERTER ESTOQUE POR NOMENCLATURA
+    function converterEstoqueNomenclaturaParaObjeto(estoqueString) {
+        const estoqueObj = {};
+        if (!estoqueString) return estoqueObj;
+        estoqueString.split(';').forEach(item => {
+            const parts = item.trim().split(':');
+            if (parts.length === 2) {
+                estoqueObj[parts[0]] = parseInt(parts[1]) || 0;
+            }
+        });
+        return estoqueObj;
+    }
+
+    // ⭐ FUNÇÃO PARA CONVERTER CUSTO POR NOMENCLATURA
+    function converterCustoNomenclaturaParaObjeto(custoString) {
+        const custoObj = {};
+        if (!custoString) return custoObj;
+        custoString.split(';').forEach(item => {
+            const parts = item.trim().split(':');
+            if (parts.length === 2) {
+                custoObj[parts[0]] = parseFloat(parts[1]) || 0;
+            }
+        });
+        return custoObj;
+    }
+
+    // ⭐ QUANTIDADES - CONVERTE PARA TEXTO
+    let qtyList = [];
+    if (p.quantidades) {
+        const rawQtys = p.quantidades.split(',').map(q => q.trim());
+        qtyList = rawQtys.map(q => {
+            if (/^\d+$/.test(q)) {
+                return q + 'g';
+            }
+            return q;
+        });
+    }
+
+    // PREÇOS
+    const precoMap = {};
+    if (p.preco_venda) {
+        p.preco_venda.split(';').forEach(item => {
+            const parts = item.trim().split(':');
+            if (parts.length === 2) {
+                const chave = parts[0].trim();
+                precoMap[chave] = parseFloat(parts[1]) || 0;
+            }
+        });
+    }
+
+    // CORREÇÃO: Se não encontrar preço, tenta com a versão sem "g"
+    qtyList.forEach(q => {
+        const semG = q.replace('g', '');
+        if (!precoMap[q] && precoMap[semG]) {
+            precoMap[q] = precoMap[semG];
+        }
+    });
+
+    // PESOS E MEDIDAS
+    const pesoMap = {};
+    const dimsMap = {};
+    if (p.pesos_medidas && p.pesos_medidas.trim() !== '') {
+        p.pesos_medidas.split(';').forEach(item => {
+            const parts = item.trim().split(':');
+            if (parts.length === 2) {
+                const qtd = parts[0].trim();
+                const dados = parts[1] || '';
+                const pesoDims = dados.split('-');
+                if (pesoDims.length === 2) {
+                    pesoMap[qtd] = pesoDims[0] || '';
+                    dimsMap[qtd] = pesoDims[1] || '';
+                } else {
+                    pesoMap[qtd] = dados;
+                    dimsMap[qtd] = '';
+                }
+            }
+        });
+    }
+
+    let pesoUnitario = 0;
+    let dimensoesPadrao = '';
+    if (p.peso_unitario && p.peso_unitario.trim() !== '') {
+        pesoUnitario = parseFloat(p.peso_unitario) || 0;
+    }
+    if (p.dimensoes && p.dimensoes.trim() !== '') {
+        dimensoesPadrao = p.dimensoes.trim();
+    }
+
+    const quantities = qtyList.map(qty => {
+        let weight = pesoMap[qty] || '';
+        let dimensions = dimsMap[qty] || '';
+        if (!weight && pesoUnitario > 0) {
+            const numQty = parseInt(qty.replace(/\D/g, '')) || 1;
+            weight = (pesoUnitario * numQty).toFixed(3) + 'kg';
+        }
+        if (!dimensions && dimensoesPadrao) {
+            dimensions = dimensoesPadrao;
+        }
+        return {
+            qty: qty,
+            price: precoMap[qty] || 0,
+            weight: weight,
+            dimensions: dimensions
+        };
+    });
+
+    // IMAGENS
+    let images = [];
+    if (p.imagens_carousel) {
+        images = p.imagens_carousel.split(',').map(img => img.trim()).filter(img => img && img.length > 0);
+    }
+    if (images.length === 0 && p.imagem_principal) {
+        const img = p.imagem_principal.trim();
+        if (img && img.length > 0) images = [img];
+    }
+    if (images.length === 0 && p.imagem) {
+        const img = p.imagem.trim();
+        if (img && img.length > 0) images = [img];
+    }
+    if (images.length === 0 && p.foto) {
+        const img = p.foto.trim();
+        if (img && img.length > 0) images = [img];
+    }
+    if (images.length === 0 && p.imagens) {
+        images = p.imagens.split(',').map(img => img.trim()).filter(img => img && img.length > 0);
+    }
+    if (images.length === 0 && cat.imagem) {
+        images = [cat.imagem];
+    }
+
+    const venderZerado = (p.vender_zerado || '').toUpperCase() === 'SIM';
+
+    return {
+        id: parseInt(p.id) || 0,
+        name: p.nome || 'Produto sem nome',
+        description: p.descricao || '',
+        images: images,
+        quantities: quantities,
+        stock: parseInt(p.estoque) || 0,
+        productionDays: parseInt(p.prazo_producao) || 0,
+        weight: parseFloat(p.peso_unitario) || 0,
+        height: 0,
+        width: 0,
+        length: 0,
+        codigo: p.codigo_produto || '',
+        ncm: p.ncm || '',
+        ativado: (p.produto_ativado || '').toUpperCase() === 'SIM',
+        vender_zerado: venderZerado,
+        estoque_por_nomenclatura: p.estoque_por_nomenclatura || '',
+        estoque_por_nomenclatura_obj: converterEstoqueNomenclaturaParaObjeto(p.estoque_por_nomenclatura || ''),
+        preco_custo_por_nomenclatura: p.preco_custo_por_nomenclatura || '',
+        preco_custo_por_nomenclatura_obj: converterCustoNomenclaturaParaObjeto(p.preco_custo_por_nomenclatura || '')
+    };
+}
+
+// ============================================================
+// 🔍 COMPARAR DADOS (para detectar mudanças)
+// ============================================================
+
+function compararDados(dadosAntigos, dadosNovos) {
+    if (!dadosAntigos || !dadosNovos) return true;
+    
+    // Compara número de categorias
+    if (dadosAntigos.categories.length !== dadosNovos.categories.length) {
+        return true;
+    }
+    
+    // Compara produtos (versão simplificada)
+    const oldProducts = dadosAntigos.categories.flatMap(c => c.products);
+    const newProducts = dadosNovos.categories.flatMap(c => c.products);
+    
+    if (oldProducts.length !== newProducts.length) {
+        return true;
+    }
+    
+    // Compara alguns campos chave
+    for (let i = 0; i < oldProducts.length; i++) {
+        const oldP = oldProducts[i];
+        const newP = newProducts[i];
+        
+        if (oldP.name !== newP.name) return true;
+        if (oldP.stock !== newP.stock) return true;
+        if (oldP.price !== newP.price) return true;
+        if (oldP.quantities.length !== newP.quantities.length) return true;
+    }
+    
+    return false;
+}
+
+// ============================================================
+// 🔄 RECARREGAR INTERFACE LEVE (sem travar)
+// ============================================================
+
+function recarregarInterfaceLeve() {
+    // Verifica se está na página de categorias
+    const categoriesSection = document.getElementById('categoriesSection');
+    const productsSection = document.getElementById('productsSection');
+    
+    if (categoriesSection && categoriesSection.style.display !== 'none') {
+        // Recarrega apenas as categorias
+        renderizarCategorias();
+    } else if (productsSection && productsSection.style.display !== 'none' && currentCategory) {
+        // Recarrega apenas os produtos da categoria atual
+        const category = PRODUCTS_DATA.categories.find(c => c.id === currentCategory.id);
+        if (category) {
+            currentCategory = category;
+            currentProducts = category.products;
+            document.getElementById('categoryTitle').textContent = category.name;
+            document.getElementById('productCount').textContent = `${category.products.length} produtos`;
+            renderizarProdutos();
+        }
+    }
+}
+
+// ============================================================
+// 📊 INDICADOR DE ATUALIZAÇÃO
+// ============================================================
+
+function mostrarIndicadorAtualizacao(mostrar) {
+    let indicador = document.getElementById('indicadorAtualizacao');
+    
+    if (mostrar) {
+        if (!indicador) {
+            indicador = document.createElement('div');
+            indicador.id = 'indicadorAtualizacao';
+            indicador.style.cssText = `
+                position: fixed;
+                bottom: 100px;
+                right: 20px;
+                background: #1576BB;
+                color: white;
+                padding: 8px 16px;
+                border-radius: 20px;
+                font-size: 12px;
+                font-weight: 600;
+                z-index: 9999;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                animation: slideUpNotif 0.3s ease;
+            `;
+            indicador.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Atualizando produtos...`;
+            document.body.appendChild(indicador);
+        } else {
+            indicador.style.display = 'flex';
+        }
+    } else {
+        if (indicador) {
+            indicador.style.display = 'none';
+        }
+    }
+}
+
+// ============================================================
+// 🗑️ FUNÇÃO PARA LIMPAR CACHE (útil para testes)
+// ============================================================
+
+function limparCache() {
+    try {
+        localStorage.removeItem(CACHE_KEY);
+        localStorage.removeItem(CACHE_TIMESTAMP_KEY);
+        console.log('🧹 Cache limpo!');
+        mostrarNotificacao('🧹 Cache limpo com sucesso!', 'success');
+        return true;
+    } catch (error) {
+        console.warn('⚠️ Erro ao limpar cache:', error);
+        return false;
+    }
+}
+
+// Adiciona atalho no console para limpar cache
+console.log('💡 Digite limparCache() no console para limpar o cache');
 
         // ============================================================
         // SALVAR E RESTAURAR ESTADO DE NAVEGAÇÃO
