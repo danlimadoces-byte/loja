@@ -2764,6 +2764,75 @@
             background: #1da851;
             transform: scale(1.02);
         }
+
+/* ===== INPUT DE QUANTIDADE NO CARRINHO ===== */
+.qty-input-mini {
+    width: 45px;
+    text-align: center;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    padding: 4px 2px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--primary-dark);
+    background: white;
+    transition: all 0.3s;
+}
+
+.qty-input-mini:focus {
+    border-color: var(--primary-brown);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(21, 118, 187, 0.15);
+}
+
+.qty-input-mini::-webkit-inner-spin-button,
+.qty-input-mini::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.qty-input-mini {
+    -moz-appearance: textfield;
+}
+
+.btn-atualizar-qtd {
+    background: var(--primary-brown);
+    color: white;
+    border: none;
+    padding: 4px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 600;
+    transition: all 0.3s;
+    white-space: nowrap;
+}
+
+.btn-atualizar-qtd:hover {
+    background: var(--secondary-brown);
+    transform: scale(1.05);
+}
+
+.btn-atualizar-qtd:active {
+    transform: scale(0.95);
+}
+
+/* Ajuste responsivo para mobile */
+@media (max-width: 480px) {
+    .qty-input-mini {
+        width: 38px;
+        font-size: 12px;
+        padding: 3px 2px;
+    }
+    
+    .btn-atualizar-qtd {
+        font-size: 10px;
+        padding: 3px 8px;
+    }
+}
+
+
+
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
@@ -3685,7 +3754,7 @@
             'Belo Horizonte': [
                 { min: 0.01, max: 120.00, cost: 6.90 },
                 { min: 120.01, max: 299.99, cost: 1.90 },
-                { min: 300.00, max: 999999, cost: 0 }
+                { min: 300.00, max: 999999, cost: -8 }
             ],
             'Betim': [
                 { min: 0.01, max: 120.00, cost: 41.90 },
@@ -5113,13 +5182,21 @@
         }
 
         function atualizarBadge() {
-            const badgeTop = document.getElementById('cartBadgeTop');
-            const total = carrinho.reduce((sum, item) => sum + item.quantity, 0);
-            if (badgeTop) {
-                badgeTop.textContent = total;
-                badgeTop.style.display = total > 0 ? 'block' : 'none';
-            }
-        }
+    const badgeTop = document.getElementById('cartBadgeTop');
+    const total = carrinho.reduce((sum, item) => sum + (item.quantity || 0), 0);
+    
+    if (badgeTop) {
+        badgeTop.textContent = total;
+        badgeTop.style.display = total > 0 ? 'block' : 'none';
+    }
+    
+    // Também atualiza o badge do bottom nav (se existir)
+    const badgeBottom = document.querySelector('.nav-item .badge');
+    if (badgeBottom) {
+        badgeBottom.textContent = total;
+        badgeBottom.style.display = total > 0 ? 'block' : 'none';
+    }
+}
 
         // ============================================================
         // VERIFICAR ESTOQUE DO CARRINHO
@@ -5325,7 +5402,7 @@
     }
     
     container.innerHTML = '';
-    let totalUnidades = 0;
+    let totalUnidadesGeral = 0;
     let avisoEstoque = false;
     let botaoHabilitado = true;
     let mensagemBloqueio = '';
@@ -5333,7 +5410,7 @@
     const totalPorNomenclatura = {};
     carrinho.forEach(item => {
         const key = `${item.productId}_${item.step}`;
-        const totalUnidadesItem = item.totalUnits || (item.quantity || 0);
+        const totalUnidadesItem = parseInt(item.totalUnits) || parseInt(item.quantity) || 0;
         if (!totalPorNomenclatura[key]) {
             totalPorNomenclatura[key] = 0;
         }
@@ -5347,18 +5424,29 @@
         const imgSrc = (item.images && item.images.length > 0) ? item.images[0] : '';
         
         const podeVenderZerado = product ? product.vender_zerado : item.vender_zerado;
-        const totalUnidadesItem = item.totalUnits || (item.quantity || 0);
-        const step = item.step || 1;
-        const qtdPacotes = item.qty || 1;
+        const totalUnidadesItem = parseInt(item.totalUnits) || parseInt(item.quantity) || 0;
+        const step = parseInt(item.step) || 1;
+        const qtdPacotes = parseInt(item.qty) || 1;
         
-        // ⭐ USA A FUNÇÃO UNIVERSAL PARA ENCONTRAR O ESTOQUE
+        // ⭐ CALCULA ESTOQUE POR NOMENCLATURA
         let estoqueNomenclatura = 0;
-        if (product) {
-            estoqueNomenclatura = encontrarEstoquePorNomenclatura(product, step);
-        }
-        
-        // Fallback: usa o estoque total
-        if (estoqueNomenclatura === 0 && product) {
+        if (product && product.estoque_por_nomenclatura_obj) {
+            const stepStr = String(step);
+            // Tenta encontrar o estoque para este step
+            let found = false;
+            for (const [key, val] of Object.entries(product.estoque_por_nomenclatura_obj)) {
+                if (String(key) === stepStr || 
+                    String(key) === stepStr.replace('g', '') || 
+                    String(key) === stepStr + 'g') {
+                    estoqueNomenclatura = val || 0;
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                estoqueNomenclatura = product.stock || 0;
+            }
+        } else if (product) {
             estoqueNomenclatura = product.stock || 0;
         }
         
@@ -5368,7 +5456,7 @@
         const estoqueReal = estoqueNomenclatura - totalReservado + totalUnidadesItem;
         const temEstoqueSuficiente = estoqueReal >= totalUnidadesItem;
         const prazoProducao = product ? product.productionDays : (item.productionDays || 7);
-        totalUnidades += totalUnidadesItem;
+        totalUnidadesGeral += totalUnidadesItem;
         
         let stockStatus = '';
         let isItemInvalido = false;
@@ -5406,17 +5494,31 @@
             }
         }
         
-        const totalUnidadesExibicao = item.totalUnits || (qtdPacotes * step);
+        const totalUnidadesExibicao = parseInt(item.totalUnits) || (qtdPacotes * step);
         
         const controlesHTML = `
             <div class="pacote-control">
                 <span class="pacote-label">${step}</span>
                 <div class="qty-control-mini">
                     <button onclick="ajustarPacoteCarrinho(${index}, -1)" class="btn-mini"><i class="fas fa-minus"></i></button>
-                    <span class="qty-mini">${qtdPacotes}</span>
+                    <input type="number" 
+                           id="qty-input-${index}" 
+                           value="${qtdPacotes}" 
+                           min="0" 
+                           step="1"
+                           class="qty-input-mini"
+                           style="width:40px;text-align:center;border:1px solid #ddd;border-radius:4px;padding:2px;font-size:13px;"
+                           oninput="validarQuantidadeInput(${index})"
+                           onkeydown="if(event.key==='Enter'){atualizarQuantidadeDigitada(${index})}">
                     <button onclick="ajustarPacoteCarrinho(${index}, 1)" class="btn-mini"><i class="fas fa-plus"></i></button>
                 </div>
                 <span class="pacote-total">${totalUnidadesExibicao} un</span>
+                <button onclick="atualizarQuantidadeDigitada(${index})" 
+                        class="btn-atualizar-qtd" 
+                        id="btn-atualizar-${index}"
+                        style="display:none;background:#1576BB;color:white;border:none;padding:2px 10px;border-radius:4px;cursor:pointer;font-size:11px;font-weight:600;">
+                    Atualizar
+                </button>
             </div>
         `;
         
@@ -5479,54 +5581,77 @@
     
     const total = carrinho.reduce((sum, item) => sum + (item.price || 0), 0);
     totalEl.textContent = `R$ ${total.toFixed(2)}`;
-    totalUnidadesEl.textContent = `${totalUnidades} un`;
+    totalUnidadesEl.textContent = `${totalUnidadesGeral} un`;
+    
+    // ⭐ GARANTE QUE O BADGE ESTÁ ATUALIZADO
+    atualizarBadge();
 }
 
         function ajustarPacoteCarrinho(index, delta) {
-            const item = carrinho[index];
-            if (!item) return;
-            
-            const novaQtd = (item.qty || 1) + delta;
-            if (novaQtd < 0) return;
-            
-            if (novaQtd === 0) {
-                if (confirm(`Remover "${item.name}" (${item.step} un) do carrinho?`)) {
-                    carrinho.splice(index, 1);
-                    salvarCarrinho();
-                    atualizarBadge();
-                    abrirCarrinho();
-                }
-                return;
-            }
-            
-            const product = encontrarProduto(item.productId);
-            const podeVenderZerado = product ? product.vender_zerado : item.vender_zerado;
-            const estoqueAtual = product ? product.stock : item.stock;
-            const totalUnits = novaQtd * item.step;
-            
-            let totalReservado = 0;
-            carrinho.forEach(i => {
-                if (i.productId === item.productId && i.id !== item.id) {
-                    totalReservado += i.totalUnits || (i.quantity || 0);
-                }
-            });
-            
-            const estoqueDisponivel = estoqueAtual - totalReservado;
-            
-            if (!podeVenderZerado && totalUnits > estoqueDisponivel) {
-                alert(`⚠️ Estoque insuficiente!\n\nDisponível: ${estoqueDisponivel} unidades\nSolicitado: ${totalUnits} unidades\n\nVocê já tem ${totalReservado} unidades reservadas no carrinho.`);
-                return;
-            }
-            
-            item.qty = novaQtd;
-            item.totalUnits = totalUnits;
-            item.price = totalUnits * item.unitPrice;
-            item.quantity = totalUnits;
-            
+    const item = carrinho[index];
+    if (!item) return;
+    
+    // Garante que os valores são números
+    const qtdAtual = parseInt(item.qty) || 1;
+    const step = parseInt(item.step) || 1;
+    const novaQtd = qtdAtual + delta;
+    
+    if (novaQtd < 0) return;
+    
+    if (novaQtd === 0) {
+        if (confirm(`Remover "${item.name}" (${step} un) do carrinho?`)) {
+            carrinho.splice(index, 1);
             salvarCarrinho();
             atualizarBadge();
             abrirCarrinho();
         }
+        return;
+    }
+    
+    const product = encontrarProduto(item.productId);
+    const podeVenderZerado = product ? product.vender_zerado : item.vender_zerado;
+    const totalUnits = novaQtd * step;
+    
+    // Verifica estoque
+    let estoqueDisponivel = 0;
+    if (product) {
+        const stepStr = String(step);
+        if (product.estoque_por_nomenclatura_obj) {
+            let found = false;
+            for (const [key, val] of Object.entries(product.estoque_por_nomenclatura_obj)) {
+                if (String(key) === stepStr || 
+                    String(key) === stepStr.replace('g', '') || 
+                    String(key) === stepStr + 'g') {
+                    estoqueDisponivel = val || 0;
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                estoqueDisponivel = product.stock || 0;
+            }
+        } else {
+            estoqueDisponivel = product.stock || 0;
+        }
+    } else {
+        estoqueDisponivel = item.stock || 0;
+    }
+    
+    if (!podeVenderZerado && novaQtd > estoqueDisponivel) {
+        alert(`⚠️ Estoque insuficiente!\n\nDisponível: ${estoqueDisponivel} pacote(s)\nSolicitado: ${novaQtd} pacote(s)`);
+        return;
+    }
+    
+    // Atualiza o item
+    item.qty = novaQtd;
+    item.totalUnits = novaQtd;
+    item.price = novaQtd * (item.unitPrice || 0);
+    item.quantity = novaQtd;
+    
+    salvarCarrinho();
+    atualizarBadge();
+    abrirCarrinho();
+}
 
         function removerItemCarrinho(index) {
             const item = carrinho[index];
@@ -9400,6 +9525,134 @@ function encontrarEstoquePorNomenclatura(product, step) {
 
         console.log('🚀 Doces do Dan - Loja Virtual');
         console.log('🍬 Feito com carinho para toda sua família!');
+
+
+// ============================================================
+// FUNÇÕES PARA EDITAR QUANTIDADE DIGITADA NO CARRINHO
+// ============================================================
+
+function validarQuantidadeInput(index) {
+    const input = document.getElementById(`qty-input-${index}`);
+    const btnAtualizar = document.getElementById(`btn-atualizar-${index}`);
+    
+    if (!input) return;
+    
+    const valor = parseInt(input.value) || 0;
+    const item = carrinho[index];
+    
+    if (!item) return;
+    
+    // Se o valor for diferente da quantidade atual, mostra o botão "Atualizar"
+    if (valor !== (item.qty || 1)) {
+        btnAtualizar.style.display = 'inline-block';
+    } else {
+        btnAtualizar.style.display = 'none';
+    }
+}
+
+function atualizarQuantidadeDigitada(index) {
+    const input = document.getElementById(`qty-input-${index}`);
+    const btnAtualizar = document.getElementById(`btn-atualizar-${index}`);
+    
+    if (!input) return;
+    
+    let novaQtd = parseInt(input.value) || 0;
+    const item = carrinho[index];
+    
+    if (!item) {
+        mostrarNotificacao('⚠️ Item não encontrado.', 'error');
+        return;
+    }
+    
+    if (novaQtd < 0) {
+        mostrarNotificacao('⚠️ A quantidade não pode ser negativa.', 'warning');
+        input.value = item.qty || 1;
+        if (btnAtualizar) btnAtualizar.style.display = 'none';
+        return;
+    }
+    
+    const step = parseInt(item.step) || 1;
+    
+    if (novaQtd === 0) {
+        if (confirm(`Remover "${item.name}" (${step} un) do carrinho?`)) {
+            carrinho.splice(index, 1);
+            salvarCarrinho();
+            atualizarBadge();
+            abrirCarrinho();
+            mostrarNotificacao(`🗑️ "${item.name}" removido do carrinho.`, 'warning');
+        } else {
+            input.value = item.qty || 1;
+            if (btnAtualizar) btnAtualizar.style.display = 'none';
+        }
+        return;
+    }
+    
+    const product = encontrarProduto(item.productId);
+    const podeVenderZerado = product ? product.vender_zerado : item.vender_zerado;
+    const totalUnits = novaQtd * step;
+    
+    let estoqueDisponivel = 0;
+    if (product) {
+        const stepStr = String(step);
+        if (product.estoque_por_nomenclatura_obj) {
+            let found = false;
+            for (const [key, val] of Object.entries(product.estoque_por_nomenclatura_obj)) {
+                if (String(key) === stepStr || 
+                    String(key) === stepStr.replace('g', '') || 
+                    String(key) === stepStr + 'g') {
+                    estoqueDisponivel = val || 0;
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                estoqueDisponivel = product.stock || 0;
+            }
+        } else {
+            estoqueDisponivel = product.stock || 0;
+        }
+    } else {
+        estoqueDisponivel = item.stock || 0;
+    }
+    
+    if (!podeVenderZerado && novaQtd > estoqueDisponivel) {
+        mostrarNotificacao(`⚠️ Estoque insuficiente! Disponível: ${estoqueDisponivel} pacote(s)`, 'error');
+        input.value = item.qty || 1;
+        if (btnAtualizar) btnAtualizar.style.display = 'none';
+        return;
+    }
+    
+    const oldQty = item.qty || 1;
+    item.qty = novaQtd;
+    item.totalUnits = novaQtd;
+    item.price = novaQtd * (item.unitPrice || 0);
+    item.quantity = novaQtd;
+    
+    salvarCarrinho();
+    atualizarBadge();
+    
+    if (btnAtualizar) btnAtualizar.style.display = 'none';
+    
+    abrirCarrinho();
+    
+    if (novaQtd > oldQty) {
+        mostrarNotificacao(`✅ Quantidade de "${item.name}" aumentada para ${novaQtd} pacote(s)`, 'success');
+    } else {
+        mostrarNotificacao(`✅ Quantidade de "${item.name}" reduzida para ${novaQtd} pacote(s)`, 'success');
+    }
+}
+// Função para atualizar o badge quando o carrinho muda
+function atualizarBadgeCarrinho() {
+    atualizarBadge();
+}
+
+// Sobrescreve a função salvarCarrinho para atualizar o badge
+const salvarCarrinhoOriginal = salvarCarrinho;
+salvarCarrinho = function() {
+    salvarCarrinhoOriginal();
+    setTimeout(atualizarBadge, 50);
+};
+
     </script>
 
 </body>
