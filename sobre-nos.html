@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre Nós - DanDoces | Nossa História</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== RESET ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary-brown: #6B3A1F;
+            --secondary-brown: #8B5A3A;
+            --gold: #D4A574;
+            --light-gold: #FDF6EC;
+            --text-dark: #1a1a1a;
+            --text-light: #ffffff;
+            --shadow: 0 4px 20px rgba(0,0,0,0.08);
+            --radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: #f5f2ed;
+            color: var(--text-dark);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: var(--radius);
+            padding: 40px;
+            box-shadow: var(--shadow);
+        }
+
+        /* ===== VOLTAR ===== */
+        .voltar {
+            display: inline-block;
+            margin-bottom: 25px;
+            color: var(--primary-brown);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        .voltar:hover {
+            transform: translateX(-3px);
+            text-decoration: underline;
+        }
+
+        /* ===== HEADER ===== */
+        .historia-header {
+            text-align: center;
+            margin-bottom: 35px;
+            padding-bottom: 25px;
+            border-bottom: 3px solid var(--gold);
+        }
+
+        .historia-header .icone-familia {
+            font-size: 48px;
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
+
+        .historia-header h1 {
+            color: var(--primary-brown);
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .historia-header .subtitulo {
+            color: var(--secondary-brown);
+            font-size: 16px;
+            font-weight: 500;
+            margin-top: 4px;
+        }
+
+        .historia-header .selo {
+            display: inline-block;
+            margin-top: 12px;
+            background: var(--light-gold);
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-size: 13px;
+            color: var(--primary-brown);
+            font-weight: 600;
+            border: 1px solid var(--gold);
+        }
+
+        /* ===== CONTEÚDO ===== */
+        .historia-content {
+            line-height: 1.9;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .historia-content p {
+            margin-bottom: 18px;
+        }
+
+        .historia-content .destaque {
+            background: var(--light-gold);
+            padding: 20px 25px;
+            border-radius: var(--radius);
+            border-left: 5px solid var(--gold);
+            margin: 25px 0;
+            font-style: italic;
+            font-size: 17px;
+            color: var(--primary-brown);
+        }
+
+        .historia-content .destaque i {
+            color: var(--gold);
+            margin-right: 10px;
+        }
+
+        /* ===== MEMBROS DA FAMÍLIA ===== */
+        .familia-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .familia-card {
+            text-align: center;
+            padding: 20px 15px;
+            background: var(--light-gold);
+            border-radius: var(--radius);
+            border: 1px solid #eee;
+            transition: var(--transition);
+        }
+
+        .familia-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+        }
+
+        .familia-card .avatar {
+            font-size: 40px;
+            color: var(--primary-brown);
+            margin-bottom: 8px;
+        }
+
+        .familia-card h4 {
+            color: var(--primary-brown);
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .familia-card .papel {
+            font-size: 13px;
+            color: var(--secondary-brown);
+            font-weight: 600;
+        }
+
+        .familia-card .descricao {
+            font-size: 13px;
+            color: #666;
+            margin-top: 6px;
+            line-height: 1.5;
+        }
+
+        /* ===== TIMELINE ===== */
+        .timeline {
+            margin: 30px 0;
+            padding: 0 10px;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 20px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0ece7;
+        }
+
+        .timeline-item:last-child {
+            border-bottom: none;
+        }
+
+        .timeline-item .numero {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--gold);
+            min-width: 45px;
+            text-align: right;
+        }
+
+        .timeline-item .conteudo {
+            flex: 1;
+        }
+
+        .timeline-item .conteudo .ano {
+            font-weight: 700;
+            color: var(--primary-brown);
+        }
+
+        .timeline-item .conteudo .texto {
+            color: #555;
+            font-size: 14px;
+        }
+
+        /* ===== VALORES ===== */
+        .valores-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .valor-item {
+            text-align: center;
+            padding: 18px 12px;
+            background: white;
+            border-radius: var(--radius);
+            border: 1px solid #eee;
+            transition: var(--transition);
+        }
+
+        .valor-item:hover {
+            border-color: var(--gold);
+            background: var(--light-gold);
+        }
+
+        .valor-item i {
+            font-size: 28px;
+            color: var(--gold);
+            margin-bottom: 6px;
+        }
+
+        .valor-item h5 {
+            color: var(--primary-brown);
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .valor-item p {
+            font-size: 12px;
+            color: #777;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        /* ===== BOTÃO ===== */
+        .btn-voltar {
+            display: inline-block;
+            margin-top: 30px;
+            background: var(--primary-brown);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .btn-voltar:hover {
+            background: var(--secondary-brown);
+            transform: scale(1.02);
+        }
+
+        /* ===== RESPONSIVO ===== */
+        @media (max-width: 768px) {
+            .container { padding: 25px; }
+            .historia-header h1 { font-size: 26px; }
+            .familia-grid { grid-template-columns: 1fr 1fr; }
+            .valores-grid { grid-template-columns: 1fr 1fr; }
+            .timeline-item { flex-direction: column; gap: 4px; }
+            .timeline-item .numero { text-align: left; font-size: 16px; }
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 18px; }
+            .historia-header h1 { font-size: 22px; }
+            .familia-grid { grid-template-columns: 1fr; }
+            .valores-grid { grid-template-columns: 1fr; }
+            .historia-content .destaque { font-size: 15px; padding: 15px 18px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- ===== BOTÃO VOLTAR ===== -->
+        <a href="javascript:history.back()" class="voltar">
+            <i class="fas fa-arrow-left"></i> Voltar
+        </a>
+
+        <!-- ===== HEADER ===== -->
+        <div class="historia-header">
+            <div class="icone-familia">
+                <i class="fas fa-heart"></i>
+            </div>
+            <h1>Nossa História</h1>
+            <p class="subtitulo">Uma família apaixonada por doces mineiros</p>
+            <span class="selo"><i class="fas fa-award"></i> Tradição &amp; Família</span>
+        </div>
+
+        <!-- ===== CONTEÚDO ===== -->
+        <div class="historia-content">
+
+            <p>
+                <strong>Tudo começou com um simples passeio</strong> — e um doce que mudou tudo.
+            </p>
+
+            <p>
+                O pequeno <strong>Daniel</strong> sempre amou visitar o vovô <strong>Hudson</strong> na roça, em 
+                <strong>Moeda</strong>, uma charmosa cidade mineira que respira tradição. Foi lá que ele conheceu 
+                os famosos doces da <strong>Doceria Antunes</strong> — verdadeiras obras-primas do sabor mineiro. 
+                Cada mordida era uma viagem no tempo, um abraço da avó em forma de doce.
+            </p>
+
+            <p>
+                O <strong>papai Hugo</strong>, que já tinha uma loja de <strong>Cestas de Café da Manhã</strong>, 
+                percebeu ali uma oportunidade única: <em>“Por que não levar esses doces incríveis para mais pessoas?”</em>
+            </p>
+
+            <div class="destaque">
+                <i class="fas fa-quote-left"></i>
+                Fechamos uma parceria com a Doceria Antunes e começamos a incluir os doces em nossas cestas. 
+                O sucesso foi tão grande que virou febre!
+            </div>
+
+            <p>
+                A <strong>mamãe Carol</strong>, com seu talento natural para vídeos e redes sociais, começou a 
+                mostrar cada detalhe: a textura cremosa do doce de leite, o brilho da goiabada cascão, o cheirinho 
+                do pão de queijo. As pessoas não só compravam — elas <strong>se apaixonavam</strong>.
+            </p>
+
+            <p>
+                Foi então que a família se reuniu e teve uma ideia: <strong>criar a DanDoces</strong>.
+            </p>
+
+            <p>
+                <strong>Dan</strong> (o entusiasta dos doces), <strong>Carol</strong> (a comunicadora criativa) e 
+                <strong>Hugo</strong> (o empreendedor experiente) juntaram suas forças para levar o <strong>verdadeiro 
+                sabor de Minas Gerais</strong> para todo o Brasil.
+            </p>
+
+            <!-- ===== FAMÍLIA ===== -->
+            <div style="margin: 25px 0 10px 0;">
+                <h3 style="color: var(--primary-brown); font-size: 18px; text-align: center; margin-bottom: 15px;">
+                    <i class="fas fa-users" style="color: var(--gold);"></i> A Família por trás da DanDoces
+                </h3>
+            </div>
+
+            <div class="familia-grid">
+                <div class="familia-card">
+                    <div class="avatar"><i class="fas fa-child"></i></div>
+                    <h4>Daniel</h4>
+                    <span class="papel">👦 O Inspirador</span>
+                    <p class="descricao">
+                        Foi seu amor pelos doces de Moeda que plantou a semente da DanDoces. 
+                        Sua alegria contagiante inspira tudo que fazemos.
+                    </p>
+                </div>
+                <div class="familia-card">
+                    <div class="avatar"><i class="fas fa-female"></i></div>
+                    <h4>Carol</h4>
+                    <span class="papel">📱 A Criadora de Conteúdo</span>
+                    <p class="descricao">
+                        Com seu talento para vídeos e redes sociais, ela mostra o amor e 
+                        a qualidade que colocamos em cada produto.
+                    </p>
+                </div>
+                <div class="familia-card">
+                    <div class="avatar"><i class="fas fa-male"></i></div>
+                    <h4>Hugo</h4>
+                    <span class="papel">📦 O Empreendedor</span>
+                    <p class="descricao">
+                        Com experiência em Cestas de Café da Manhã, ele uniu a família 
+                        e a Doceria Antunes em uma parceria de sucesso.
+                    </p>
+                </div>
+            </div>
+
+            <!-- ===== TIMELINE ===== -->
+            <div style="margin: 25px 0 10px 0;">
+                <h3 style="color: var(--primary-brown); font-size: 18px; text-align: center; margin-bottom: 15px;">
+                    <i class="fas fa-timeline" style="color: var(--gold);"></i> Nossa Jornada
+                </h3>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="numero">01</div>
+                    <div class="conteudo">
+                        <span class="ano">📍 O Encontro</span>
+                        <p class="texto">Daniel descobre os doces da Doceria Antunes em Moeda e se apaixona pelo sabor.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="numero">02</div>
+                    <div class="conteudo">
+                        <span class="ano">🤝 A Parceria</span>
+                        <p class="texto">Hugo fecha parceria com a Doceria Antunes para incluir os doces em suas Cestas de Café da Manhã.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="numero">03</div>
+                    <div class="conteudo">
+                        <span class="ano">📱 O Sucesso</span>
+                        <p class="texto">Carol começa a divulgar os doces nas redes sociais e a demanda dispara.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="numero">04</div>
+                    <div class="conteudo">
+                        <span class="ano">🏠 O Sonho</span>
+                        <p class="texto">A família decide unir forças e criar a DanDoces, para levar o sabor mineiro a todo o Brasil.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="numero">05</div>
+                    <div class="conteudo">
+                        <span class="ano">🚀 A Missão</span>
+                        <p class="texto">Hoje, distribuímos diretamente da fábrica, com todo o carinho e tradição que só uma família mineira pode oferecer.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== VALORES ===== -->
+            <div style="margin: 25px 0 10px 0;">
+                <h3 style="color: var(--primary-brown); font-size: 18px; text-align: center; margin-bottom: 15px;">
+                    <i class="fas fa-gem" style="color: var(--gold);"></i> Nossos Valores
+                </h3>
+            </div>
+
+            <div class="valores-grid">
+                <div class="valor-item">
+                    <i class="fas fa-heart"></i>
+                    <h5>Amor pela Tradição</h5>
+                    <p>Valorizamos as receitas e o saber fazer mineiro, passados de geração em geração.</p>
+                </div>
+                <div class="valor-item">
+                    <i class="fas fa-handshake"></i>
+                    <h5>Parceria e Família</h5>
+                    <p>Trabalhamos juntos, como uma família, para oferecer o melhor a cada cliente.</p>
+                </div>
+                <div class="valor-item">
+                    <i class="fas fa-star"></i>
+                    <h5>Qualidade e Sabor</h5>
+                    <p>Selecionamos os melhores ingredientes para garantir o verdadeiro sabor de Minas.</p>
+                </div>
+            </div>
+
+            <!-- ===== FRASE FINAL ===== -->
+            <div class="destaque" style="text-align: center; font-style: normal;">
+                <p style="margin: 0; font-size: 18px; font-weight: 600; color: var(--primary-brown);">
+                    <i class="fas fa-quote-left" style="color: var(--gold);"></i>
+                    Levar o verdadeiro sabor de Minas Gerais para todo o Brasil, 
+                    com todo o carinho que uma família pode oferecer.
+                    <i class="fas fa-quote-right" style="color: var(--gold);"></i>
+                </p>
+                <p style="margin-top: 8px; font-size: 14px; font-weight: 400; color: #777;">
+                    — DanDoces, uma história de amor, família e tradição mineira.
+                </p>
+            </div>
+
+        </div>
+
+        <!-- ===== BOTÃO VOLTAR ===== -->
+        <a href="javascript:history.back()" class="btn-voltar">
+            <i class="fas fa-arrow-left"></i> Voltar para a Loja
+        </a>
+
+    </div>
+
+</body>
+</html>
