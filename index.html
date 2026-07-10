@@ -8216,10 +8216,10 @@
     document.getElementById('checkoutPrazoDetalhe').textContent = detalhePrazo;
 }
 
-        // ============================================================
-        // FINALIZAR PEDIDO CHECKOUT
-        // ============================================================
-  async function finalizarPedidoCheckout() {
+ // ============================================================
+// FINALIZAR PEDIDO CHECKOUT
+// ============================================================
+async function finalizarPedidoCheckout() {
     const btnFinalizar = document.getElementById('btnFinalizarPedido');
     const textoOriginal = btnFinalizar.innerHTML;
     btnFinalizar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando pedido...';
@@ -8292,7 +8292,7 @@
         const clienteUf = enderecoCompleto.uf || 'MG';
         const clienteCep = enderecoCompleto.cep || '30100000';
 
-        // ⭐⭐⭐ ITENS DO PEDIDO - CORREÇÃO AQUI! ⭐⭐⭐
+        // ⭐⭐⭐ ITENS DO PEDIDO ⭐⭐⭐
         let totalProdutos = 0;
         const itensFormatados = carrinho.map(item => {
             const preco = item.price || 0;
@@ -8306,7 +8306,6 @@
             const productionDays = product ? product.productionDays : item.productionDays || 7;
             const venderZerado = product ? product.vender_zerado : item.vender_zerado;
             
-            // ⭐ CALCULA O ESTOQUE DISPONÍVEL
             let estoqueDisponivel = 0;
             if (product) {
                 estoqueDisponivel = encontrarEstoquePorNomenclatura(product, item.step);
@@ -8317,18 +8316,12 @@
                 estoqueDisponivel = item.stock || 0;
             }
             
-            // ⭐⭐⭐ CORREÇÃO: VERIFICA SE TEM ESTOQUE SUFICIENTE ⭐⭐⭐
-            // Se NÃO tem estoque suficiente, é produção (mesmo que venda zerado)
             const temEstoqueSuficiente = estoqueDisponivel >= qtdPacotes;
             
-            // ⭐ Se vende zerado, só é produção se NÃO tiver estoque suficiente
-            // Se NÃO vende zerado, é produção se NÃO tiver estoque suficiente OU estoque for 0
             let isProducao = false;
             if (venderZerado) {
-                // Vende zerado: só produz se não tiver estoque suficiente
                 isProducao = !temEstoqueSuficiente;
             } else {
-                // Não vende zerado: produz se não tiver estoque suficiente OU estoque for 0
                 isProducao = !temEstoqueSuficiente || estoqueDisponivel === 0;
             }
             
@@ -8337,7 +8330,6 @@
             
             let nomeCompleto = item.name || 'Produto';
             
-            // ⭐ MONTA O NOME CORRETO
             if (isProducao && prazoProducao > 0) {
                 nomeCompleto = `${nomeCompleto} (Produção ${prazoProducao} dias)`;
             } else if (isProducao) {
@@ -8345,7 +8337,6 @@
             } else if (temEstoque) {
                 nomeCompleto = `${nomeCompleto} (Disponível)`;
             } else {
-                // Fallback: se não tem estoque e não vende zerado, é produção
                 nomeCompleto = `${nomeCompleto} (Produção ${productionDays} dias)`;
             }
             
@@ -8388,7 +8379,6 @@
             
             if (!product) return;
             
-            // ⭐ USA A FUNÇÃO UNIVERSAL PARA ENCONTRAR O ESTOQUE
             let estoqueNomenclatura = 0;
             if (product) {
                 estoqueNomenclatura = encontrarEstoquePorNomenclatura(product, step);
@@ -8398,10 +8388,6 @@
             }
             
             const venderZerado = product.vender_zerado === true;
-            
-            // ⭐ SÓ BAIXA ESTOQUE SE TIVER ESTOQUE SUFICIENTE
-            // Se vende zerado, só baixa se tiver estoque
-            // Se não vende zerado, só baixa se tiver estoque suficiente
             const temEstoqueSuficiente = estoqueNomenclatura >= qtdPacotes;
             const podeBaixar = temEstoqueSuficiente && estoqueNomenclatura > 0;
             
@@ -8414,7 +8400,6 @@
                         estoqueObj[key] = product.estoque_por_nomenclatura_obj[key];
                     });
                     
-                    // Encontra a chave correta para atualizar
                     const chavesDisponiveis = Object.keys(estoqueObj);
                     let chaveEncontrada = null;
                     
@@ -8601,6 +8586,43 @@
             };
 
             salvarDadosPedido(dadosPedidoParaSalvar);
+
+            // ============================================================
+            // ⭐ DISPARA AS CONVERSÕES (GOOGLE ADS + GA4) ⭐
+            // ============================================================
+            try {
+                // ========================================
+                // GOOGLE ADS - CONVERSÃO DE COMPRA
+                // ========================================
+                gtag('event', 'conversion', {
+                    'send_to': 'AW-18314276545/OJ3vCOvWkM4cEMHd9pxE',
+                    'transaction_id': String(novoId),
+                    'value': totalFinal,
+                    'currency': 'BRL'
+                });
+                console.log('✅ Conversão Google Ads registrada para pedido #' + novoId);
+            } catch (e) {
+                console.warn('⚠️ Erro ao registrar conversão Google Ads:', e);
+            }
+
+            try {
+                // ========================================
+                // GOOGLE ANALYTICS 4 - EVENTO DE COMPRA
+                // ========================================
+                gtag('event', 'purchase', {
+                    'transaction_id': String(novoId),
+                    'value': totalFinal,
+                    'currency': 'BRL',
+                    'items': itensFormatados.map(item => ({
+                        'item_name': item.nome,
+                        'price': parseFloat((item.price / item.quantidade).toFixed(2)),
+                        'quantity': parseInt(item.quantidade)
+                    }))
+                });
+                console.log('✅ Evento de compra GA4 registrado para pedido #' + novoId);
+            } catch (e) {
+                console.warn('⚠️ Erro ao registrar evento GA4:', e);
+            }
 
             // ⭐ PROCESSA O PAGAMENTO
             try {
