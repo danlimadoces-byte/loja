@@ -2844,11 +2844,22 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  // Google Analytics 4 (GA4)
+  // ============================================
+  // CONFIGURAÇÃO DO GOOGLE ANALYTICS 4 (GA4)
+  // ============================================
   gtag('config', 'G-PBFWJF0JSP');
 
-  // Google Ads (Conversões)
+  // ============================================
+  // CONFIGURAÇÃO DO GOOGLE ADS
+  // ============================================
   gtag('config', 'AW-18314276545');
+  
+  // ============================================
+  // CONFIGURAÇÃO ADICIONAL PARA O GOOGLE ADS
+  // ============================================
+  // Isso garante que o Google Ads seja inicializado corretamente
+  gtag('set', 'allow_google_signals', true);
+  gtag('set', 'allow_ad_personalization_signals', true);
 </script>
 
 
